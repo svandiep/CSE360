@@ -65,7 +65,11 @@ public class Frame1 {
 				// and then provide it to the controller to do the calculation.
 				// The result will be passed to the Paths frame on launch to be displayed.
 				ArrayList<Record> records = null;
-				controller.DoCalculation(records);
+				controller.doCalculation(records);
+				
+				// Our results table:
+				Paths pathFrame = new Paths(controller);
+				pathFrame.setVisible(true);
 			}
 		});
 		btnNewButton.setBounds(449, 329, 97, 25);

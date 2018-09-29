@@ -10,8 +10,14 @@ import java.util.*;
  */
 public class Controller {
 	
-	public void DoCalculation(List<Record> records)
+	public void doCalculation(List<Record> records)
 	{
 		// Given a collection of records, do all calculations to find all paths.
+	}
+	
+	public ArrayList<Result> getResults()
+	{
+		// Called by Paths JFrame on spawn to get the data for population of JTable.
+		return null;
 	}
 }

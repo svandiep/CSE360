@@ -11,15 +11,22 @@ import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.util.*;
 
 public class Paths extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JScrollPane scrollPane;
+	
+	// Provided via constructor
+	private Controller controller;
+	
+	
 	/**
 	 * Launch the application.
 	 */
+	/* No main needed here
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -32,11 +39,16 @@ public class Paths extends JFrame {
 			}
 		});
 	}
-
+	*/
 	/**
 	 * Create the frame.
 	 */
-	public Paths() {
+	public Paths(Controller controller) {
+		
+		// Keep reference to controller so the results can be polled later.
+		this.controller = controller;
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -81,5 +93,8 @@ public class Paths extends JFrame {
 				"Path", "Total Duration"
 			}
 		));
+		
+		// We will use the populated data to fill the table
+		ArrayList<Result> results = controller.getResults();
 	}
 }

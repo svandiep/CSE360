@@ -10,9 +10,32 @@ import java.util.*;
  */
 public class Controller {
 	
+	private Graph graph;
+	
 	public void doCalculation(List<Record> records)
 	{
 		// Given a collection of records, do all calculations to find all paths.
+		//
+		// First, create a Graph.
+		graph = new Graph();
+		HashMap<String, Integer> activities = new HashMap<String, Integer>();
+		for(Record r : records)
+		{
+			activities.put(r.getActivity(), r.getDuration());
+		}
+		
+		for(Record r : records)
+		{			
+			for(String s : r.getDependencies())
+			{
+				if(s.isEmpty()) continue;
+				
+				graph.addEdge(s, r.getActivity(), activities.get(s));
+			}
+		}
+		
+		// debugging
+		graph.display();
 	}
 	
 	public ArrayList<Result> getResults()

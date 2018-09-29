@@ -1,5 +1,7 @@
 package edu.asu.cse360.team9;
 
+import java.util.*;
+
 /*
  * Represents a non-GUI tied model object of
  * Activity, Duration, Path.
@@ -9,18 +11,18 @@ public class Record {
 	
 	private String activity;
 	private int duration;
-	private String path;
+	private String dependencies;
 	
 	public Record()
 	{
 		
 	}
 	
-	public Record(String activity, int duration, String path)
+	public Record(String activity, int duration, String dependencies)
 	{
 		this.activity = activity;
 		this.duration = duration;
-		this.path = path;
+		this.dependencies = dependencies;
 	}
 	
 	public String getActivity()
@@ -43,14 +45,14 @@ public class Record {
 		this.duration = duration;
 	}
 	
-	public String getPath()
+	public List<String> getDependencies()
 	{
-		return path;
+		return Arrays.asList(dependencies.split(","));
 	}
 	
-	public void setPath(String path)
+	public void setDependencies(String dependencies)
 	{
-		this.path = path;
+		this.dependencies = dependencies;
 	}
 	
 }

@@ -25,6 +25,7 @@ public class Frame1 {
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -37,13 +38,13 @@ public class Frame1 {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the application.
 	 */
 	public Frame1() {
-		initialize();
 		controller = new Controller();
+		initialize();
 	}
 
 	/**
@@ -64,12 +65,54 @@ public class Frame1 {
 				// We will build the list of records from the table data on the form,
 				// and then provide it to the controller to do the calculation.
 				// The result will be passed to the Paths frame on launch to be displayed.
-				ArrayList<Record> records = null;
+				ArrayList<Record> records = new ArrayList<Record>();
+				
+				// From PERT slides:
+				/*
+				 	Activity		Predecessor		Weeks		comment
+				 	{dest}			{source}
+				 	A				--				2			0 (not entirely sure about this yet)
+				 	B				A				4			1
+				 	C				B				5			2
+				 	D				B,F				6			3
+				 	E				C,D				3			4
+				 	F				A				5			5
+				 	
+				 	
+				 	   
+				 	Ex: 
+				 	
+				 	
+				 	     2         4        5
+				 	[A] ----> [B] ----> [C] -------+
+				 	 |         |   4               +----> [E] 
+				 	 |         +------+          6 |
+				 	 |      2         +----> [D] --+
+				     +--------> [F] --+ 5
+				 
+				 
+				 	Algorithm:
+				 	1) Build paired list of activities and durations P
+				 	2) Go through list, and build edge where source is predecessor, destination
+				 	   is activity, and duration is P[predecessor].duration.
+				 
+				 */
+				
+				// This is all PROOF-OF-CONCEPT -- NOT FINAL:
+				records.add(new Record("A", 2, ""));
+				records.add(new Record("B", 4, "A"));
+				records.add(new Record("C", 5, "B"));
+				records.add(new Record("D", 6, "B,F"));
+				records.add(new Record("E", 3, "C,D"));
+				records.add(new Record("F", 5, "A"));
+				
 				controller.doCalculation(records);
 				
 				// Our results table:
+				/*
 				Paths pathFrame = new Paths(controller);
 				pathFrame.setVisible(true);
+				*/
 			}
 		});
 		btnNewButton.setBounds(449, 329, 97, 25);

@@ -14,11 +14,13 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.*;
 
 public class Frame1 {
 
 	private JFrame frmNetworkPathAnalyzer;
 	private JTable table_1;
+	private Controller controller;
 
 	/**
 	 * Launch the application.
@@ -41,6 +43,7 @@ public class Frame1 {
 	 */
 	public Frame1() {
 		initialize();
+		controller = new Controller();
 	}
 
 	/**
@@ -56,7 +59,13 @@ public class Frame1 {
 		JButton btnNewButton = new JButton("Calculate");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Cycle detected!");
+				//JOptionPane.showMessageDialog(null, "Cycle detected!");
+				
+				// We will build the list of records from the table data on the form,
+				// and then provide it to the controller to do the calculation.
+				// The result will be passed to the Paths frame on launch to be displayed.
+				ArrayList<Record> records = null;
+				controller.DoCalculation(records);
 			}
 		});
 		btnNewButton.setBounds(449, 329, 97, 25);

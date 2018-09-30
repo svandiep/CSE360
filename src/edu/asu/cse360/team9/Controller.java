@@ -16,7 +16,7 @@ public class Controller {
 	{
 		// Given a collection of records, do all calculations to find all paths.
 		//
-		// First, create a Graph.
+		// First, create a Graph, and identify start node
 		graph = new Graph();
 		HashMap<String, Integer> activities = new HashMap<String, Integer>();
 		for(Record r : records)
@@ -24,13 +24,30 @@ public class Controller {
 			activities.put(r.getActivity(), r.getDuration());
 		}
 		
+		// If an activity is a dependency, then it cannot be a final node.
+		ArrayList<String> dependents = new ArrayList<String>();
 		for(Record r : records)
 		{			
 			for(String s : r.getDependencies())
 			{
-				if(s.isEmpty()) continue;
+				// This is our start node:
+				if(s.isEmpty())
+				{
+					graph.setStartActivity(r.getActivity());
+					continue;
+				}
 				
+				dependents.add(s);
 				graph.addEdge(s, r.getActivity(), activities.get(s));
+			}
+		}
+		
+		// For all activities' keys, if it doesn't exist in dependents, it's final.
+		for(String s : activities.keySet())
+		{
+			if(!dependents.contains(s))
+			{
+				graph.setStopActivity(s);
 			}
 		}
 		

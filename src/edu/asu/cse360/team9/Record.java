@@ -25,6 +25,12 @@ public class Record {
 		this.dependencies = dependencies;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return "{ " + activity + ", " + duration + ", Dependencies: " + dependencies + " }";
+	}
+	
 	public String getActivity()
 	{
 		return activity;

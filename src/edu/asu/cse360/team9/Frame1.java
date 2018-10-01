@@ -3,6 +3,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -20,6 +22,7 @@ public class Frame1 {
 
 	private JFrame frmNetworkPathAnalyzer;
 	private JTable table_1;
+	private DefaultTableModel model;
 	private Controller controller;
 
 	/**
@@ -43,7 +46,6 @@ public class Frame1 {
 	 * Create the application.
 	 */
 	public Frame1() {
-		controller = new Controller();
 		initialize();
 	}
 
@@ -65,6 +67,7 @@ public class Frame1 {
 				// We will build the list of records from the table data on the form,
 				// and then provide it to the controller to do the calculation.
 				// The result will be passed to the Paths frame on launch to be displayed.
+				controller = new Controller();
 				ArrayList<Record> records = new ArrayList<Record>();
 				
 				// From PERT slides:
@@ -98,35 +101,69 @@ public class Frame1 {
 				 
 				 */
 				//Get data from table with loop
+				
+				if (table_1.isEditing())
+				    table_1.getCellEditor().stopCellEditing();
+				
 				int i = 0;
 				int duration;
 				String activity;
 				String dependency;
+				int rows = model.getRowCount();
+				for(int idx = 0; idx < rows; idx++)
+				{
+					if(model.getValueAt(idx, 0).toString().isEmpty())
+					{
+						// We skip rows that don't have an activity.
+						continue;
+					}
+					
+					activity = model.getValueAt(idx, 0).toString();
+					duration = Integer.parseInt(model.getValueAt(idx, 1).toString());
+					dependency = model.getValueAt(idx, 2).toString();
+					records.add(new Record(activity, duration, dependency));
+				}
+				
+				for(Record r : records)
+				{
+					System.out.println(r);
+				}
+				
+				/* This code had problems. Above code solves them (mostly)
+				 * We'll keep it around for one check in, and then remove it.
 				while(table_1.getModel().getValueAt(i, 0) != null){
 					try
 					{
-				activity = table_1.getModel().getValueAt(i, 0).toString();
+						activity = table_1.getModel().getValueAt(i, 0).toString();
+						System.out.println("activity=" + activity);
 					}
-				      catch (Exception e1) {
-				    	  JOptionPane.showMessageDialog(null, "Invalid Activity");
-				    	  activity = "";
-				      }
+				    catch (Exception e1) {
+				    	JOptionPane.showMessageDialog(null, "Invalid Activity");
+				    	activity = "";
+				    }
+					
 					try
 					{
-				duration = Integer.parseInt( table_1.getValueAt(i, 1).toString() );
+						duration = Integer.parseInt( table_1.getValueAt(i, 1).toString() );
+						System.out.println("duration=" + duration);
 					}
-				      catch (Exception e1) {
-				    	  JOptionPane.showMessageDialog(null, "Invalid Duration");
-				    	  duration = 0;
-				      }
-				if(table_1.getModel().getValueAt(i, 2) != null) {	
-				dependency = table_1.getModel().getValueAt(i, 2).toString();
+				    catch (Exception e1) {
+				    	JOptionPane.showMessageDialog(null, "Invalid Duration");
+				    	duration = 0;
+				    }
+					
+					if(table_1.getModel().getValueAt(i, 2) != null) {	
+						dependency = table_1.getModel().getValueAt(i, 2).toString();
+						System.out.println("dependency=" + dependency);
+					}
+					else {
+						dependency = "";
+					}
+					
+					records.add(new Record(activity, duration, dependency));
+					i++;
 				}
-				else {dependency = "";}
-				records.add(new Record(activity, duration, dependency));
-				i++;
-				}
-				
+				*/
 				// This is all PROOF-OF-CONCEPT -- NOT FINAL:
 				//records.add(new Record("A", 2, ""));
 				//records.add(new Record("B", 4, "A"));
@@ -164,6 +201,42 @@ public class Frame1 {
 		
 		table_1 = new JTable();
 		scrollPane.setViewportView(table_1);
+		model = new DefaultTableModel(
+				new Object[][] {
+				{"", "", ""}/*,
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},*/
+			},
+			new String[]  {
+				"Activity", "Duration", "Dependencies"
+			});
+		
+		table_1.setModel(model);
+		model.addTableModelListener(new TableModelListener() {
+			  @Override
+			  public void tableChanged(TableModelEvent e) {
+			    if (e.getType() == TableModelEvent.UPDATE && (e.getLastRow() + 1) == model.getRowCount()) {
+			    	System.out.println("tableChanged()");
+			    	
+			    	model.addRow(new Object[] { "", "", ""});
+			    }
+			  }
+			});
+		
+		
+		/*
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null},
@@ -185,7 +258,7 @@ public class Frame1 {
 			new String[]  {
 				"Activity", "Duration", "Dependencies"
 			}
-		));
+		));*/
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmNetworkPathAnalyzer.setJMenuBar(menuBar);

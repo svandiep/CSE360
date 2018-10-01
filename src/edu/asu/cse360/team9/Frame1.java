@@ -97,14 +97,43 @@ public class Frame1 {
 				 	   is activity, and duration is P[predecessor].duration.
 				 
 				 */
+				//Get data from table with loop
+				int i = 0;
+				int duration;
+				String activity;
+				String dependency;
+				while(table_1.getModel().getValueAt(i, 0) != null){
+					try
+					{
+				activity = table_1.getModel().getValueAt(i, 0).toString();
+					}
+				      catch (Exception e1) {
+				    	  JOptionPane.showMessageDialog(null, "Invalid Activity");
+				    	  activity = "";
+				      }
+					try
+					{
+				duration = Integer.parseInt( table_1.getValueAt(i, 1).toString() );
+					}
+				      catch (Exception e1) {
+				    	  JOptionPane.showMessageDialog(null, "Invalid Duration");
+				    	  duration = 0;
+				      }
+				if(table_1.getModel().getValueAt(i, 2) != null) {	
+				dependency = table_1.getModel().getValueAt(i, 2).toString();
+				}
+				else {dependency = "";}
+				records.add(new Record(activity, duration, dependency));
+				i++;
+				}
 				
 				// This is all PROOF-OF-CONCEPT -- NOT FINAL:
-				records.add(new Record("A", 2, ""));
-				records.add(new Record("B", 4, "A"));
-				records.add(new Record("C", 5, "B"));
-				records.add(new Record("D", 6, "B,F"));
-				records.add(new Record("E", 3, "C,D"));
-				records.add(new Record("F", 5, "A"));
+				//records.add(new Record("A", 2, ""));
+				//records.add(new Record("B", 4, "A"));
+				//records.add(new Record("C", 5, "B"));
+				//records.add(new Record("D", 6, "B,F"));
+				//records.add(new Record("E", 3, "C,D"));
+				//records.add(new Record("F", 5, "A"));
 				
 				controller.doCalculation(records);
 				

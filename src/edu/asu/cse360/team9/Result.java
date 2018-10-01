@@ -1,43 +1,33 @@
 package edu.asu.cse360.team9;
 
+import java.util.*;
 /*
  * Represents a non-GUI model object of 
  * Path, Total Duration
  */
 public class Result {
 	
-	private String path;
+	private ArrayList<String> path;
 	private int duration;
 	
 	public Result()
 	{
-		
+		path = new ArrayList<String>();
 	}
 	
-	public Result(String path, int duration)
+	public void addPathNode(String node, int duration)
 	{
-		this.path = path;
-		this.duration = duration;
+		path.add(node);
+		this.duration += duration;
 	}
 	
 	public String getPath()
 	{
-		return path;
-	}
-	
-	public void setPath(String path)
-	{
-		this.path = path;
+		return String.join(",", path);
 	}
 	
 	public int getDuration()
 	{
 		return duration;
 	}
-	
-	public void setDuration(int duration)
-	{
-		this.duration = duration;
-	}
-	
 }

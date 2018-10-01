@@ -113,6 +113,31 @@ public class Frame1 {
 				Paths pathFrame = new Paths(controller);
 				pathFrame.setVisible(true);
 				*/
+				
+				// PROOF OF CONCEPT - NOT FINAL:
+				Result r1 = new Result();
+				r1.addPathNode("A", 2);
+				r1.addPathNode("B", 4);
+				r1.addPathNode("C", 5);
+				r1.addPathNode("E", 3);
+				
+				System.out.println("The Path: " + r1.getPath() + " takes " + r1.getDuration() + " weeks.");
+				
+				Result r2 = new Result();
+				r2.addPathNode("A", 2);
+				r2.addPathNode("F", 5);
+				r2.addPathNode("D", 6);
+				r2.addPathNode("E", 3);
+				
+				System.out.println("The Path: " + r2.getPath() + " takes " + r2.getDuration() + " weeks.");
+				
+				Result r3 = new Result();
+				r3.addPathNode("A", 2);
+				r3.addPathNode("B", 4);
+				r3.addPathNode("D", 6);
+				r3.addPathNode("E", 3);
+				
+				System.out.println("The Path: " + r3.getPath() + " takes " + r3.getDuration() + " weeks.");
 			}
 		});
 		btnNewButton.setBounds(449, 329, 97, 25);

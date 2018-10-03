@@ -17,18 +17,18 @@ public class Graph {
 	{
 		String source;
 		String destination;
-		int weight;
+		//int weight;
 		
-		Edge(String source, String destination, int weight)
+		Edge(String source, String destination /*, int weight */)
 		{
 			this.source = source;
 			this.destination = destination;
-			this.weight = weight;
+			//this.weight = weight;
 		}
 		
 		public String toString()
 		{
-			return "[" + source + ", " + destination + ", " + weight + "]";
+			return "[" + source + ", " + destination + /*", " + weight +*/ "]";
 		}
 	}
 	
@@ -38,9 +38,9 @@ public class Graph {
 		adjList = new HashMap<String, LinkedList<Edge>>();
 	}
 	
-	public void addEdge(String source, String destination, int weight)
+	public void addEdge(String source, String destination /*, int weight */)
 	{
-		Edge e = new Edge(source, destination, weight);
+		Edge e = new Edge(source, destination /* , weight */);
 		
 		if(!adjList.containsKey(source))
 		{

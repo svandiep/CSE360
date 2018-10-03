@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class TestGraph {
+class TestGraphCycles {
 
 	@Test
 	void testCycle01() {
@@ -17,12 +17,13 @@ class TestGraph {
 		  
 		 */
 		Graph g = new Graph();
-		g.addEdge("A", "B", 1);
-		g.addEdge("B", "A", 1);
+		g.addEdge("A", "B");
+		g.addEdge("B", "A");
 		
 		fail("Not yet implemented");
 	}
 	
+	@Test
 	void testCycle02() {
 		/*
 		  
@@ -32,14 +33,15 @@ class TestGraph {
 		 	Extended idea of test 01.
 		 */
 		Graph g = new Graph();
-		g.addEdge("A", "B", 1);
-		g.addEdge("B", "C", 1);
-		g.addEdge("C", "B", 1);
+		g.addEdge("A", "B");
+		g.addEdge("B", "C");
+		g.addEdge("C", "B");
 		
 		fail("Not yet implemented");
 		
 	}
 	
+	@Test
 	void testCycle03() {
 		/*
 		 		[A] --> [B] --> [C]
@@ -50,11 +52,10 @@ class TestGraph {
 		 */
 		
 		Graph g = new Graph();
-		g.addEdge("A", "B", 1);
-		g.addEdge("B", "C", 1);
-		g.addEdge("C", "A", 1);
+		g.addEdge("A", "B");
+		g.addEdge("B", "C");
+		g.addEdge("C", "A");
 		
 		fail("Not yet implemented");
 	}
-
 }

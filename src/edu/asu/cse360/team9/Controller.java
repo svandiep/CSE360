@@ -38,7 +38,7 @@ public class Controller {
 				}
 				
 				dependents.add(s);
-				graph.addEdge(s, r.getActivity(), activities.get(s));
+				graph.addEdge(s, r.getActivity() /*, activities.get(s) */);
 			}
 		}
 		

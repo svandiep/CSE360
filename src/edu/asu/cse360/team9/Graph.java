@@ -9,6 +9,7 @@ import java.util.Map.Entry;
  */
 public class Graph {
 
+	private ArrayList<String> edges;
 	private HashMap<String, LinkedList<Edge>> adjList;
 	private String startActivity = "";
 	private String stopActivity = "";
@@ -34,10 +35,14 @@ public class Graph {
 	public Graph()
 	{
 		adjList = new HashMap<String, LinkedList<Edge>>();
+		edges = new ArrayList<String>();
 	}
 	
 	public void addEdge(String source, String destination)
-	{
+	{	
+		if(edges.contains(source + "-" + destination))
+			throw new IllegalArgumentException("Edge already exists");
+		
 		Edge e = new Edge(source, destination);
 		
 		if(!adjList.containsKey(source))
@@ -51,6 +56,7 @@ public class Graph {
 		}
 		
 		adjList.get(source).add(e);
+		edges.add(source + "-" + destination);
 	}
 	
 	// DEBUGGING FUNCTION - TO BE REMOVED

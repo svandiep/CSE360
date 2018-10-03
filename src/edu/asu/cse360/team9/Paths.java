@@ -1,6 +1,8 @@
 package edu.asu.cse360.team9;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -43,7 +45,11 @@ public class Paths extends JFrame {
 			}
 		});
 	}
+	
 	*/
+	public void CloseFrame(){
+	    super.dispose();
+	}
 	/**
 	 * Create the frame.
 	 */
@@ -53,16 +59,21 @@ public class Paths extends JFrame {
 		this.controller = controller;
 		
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 335);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Close");
-		btnNewButton.setBounds(450, 238, 97, 25);
-		contentPane.add(btnNewButton);
+		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CloseFrame();
+			}
+		});
+		btnClose.setBounds(450, 238, 97, 25);
+		contentPane.add(btnClose);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(23, 13, 513, 212);
@@ -78,7 +89,25 @@ public class Paths extends JFrame {
 				"Path", "Duration"
 			}
 		);
-		table.setModel(model);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"", ""},
+			},
+			new String[] {
+				"Path", "Duration"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(200);
+		table.getColumnModel().getColumn(1).setPreferredWidth(62);
+		table.getColumnModel().getColumn(1).setMinWidth(10);
+		table.getColumnModel().getColumn(1).setMaxWidth(2147483644);
 		model.addTableModelListener(new TableModelListener() {
 			  @Override
 			  public void tableChanged(TableModelEvent e) {
@@ -89,11 +118,6 @@ public class Paths extends JFrame {
 			    }
 			  }
 			});
-		//Column Widths
-		table.getColumnModel().getColumn(0).setPreferredWidth(200);
-		table.getColumnModel().getColumn(1).setPreferredWidth(62);
-		table.getColumnModel().getColumn(1).setMinWidth(10);
-		table.getColumnModel().getColumn(1).setMaxWidth(2147483644);
 		
 		// We will use the populated data to fill the table
 		ArrayList<Result> results = controller.getResults();

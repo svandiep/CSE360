@@ -62,6 +62,13 @@ public class Frame1 {
 		JButton btnNewButton = new JButton("Calculate");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// Don't want user calculating when there's nothing there,
+				// and an edit will create a new row, so a valid graph will
+				// have at least a row count of 2.
+				if(model.getRowCount() == 1)
+					return;
+				
 				//JOptionPane.showMessageDialog(null, "Cycle detected!");
 				
 				// We will build the list of records from the table data on the form,
@@ -105,7 +112,6 @@ public class Frame1 {
 				if (table_1.isEditing())
 				    table_1.getCellEditor().stopCellEditing();
 				
-				int i = 0;
 				int duration;
 				String activity;
 				String dependency;
@@ -129,41 +135,6 @@ public class Frame1 {
 					System.out.println(r);
 				}
 				
-				/* This code had problems. Above code solves them (mostly)
-				 * We'll keep it around for one check in, and then remove it.
-				while(table_1.getModel().getValueAt(i, 0) != null){
-					try
-					{
-						activity = table_1.getModel().getValueAt(i, 0).toString();
-						System.out.println("activity=" + activity);
-					}
-				    catch (Exception e1) {
-				    	JOptionPane.showMessageDialog(null, "Invalid Activity");
-				    	activity = "";
-				    }
-					
-					try
-					{
-						duration = Integer.parseInt( table_1.getValueAt(i, 1).toString() );
-						System.out.println("duration=" + duration);
-					}
-				    catch (Exception e1) {
-				    	JOptionPane.showMessageDialog(null, "Invalid Duration");
-				    	duration = 0;
-				    }
-					
-					if(table_1.getModel().getValueAt(i, 2) != null) {	
-						dependency = table_1.getModel().getValueAt(i, 2).toString();
-						System.out.println("dependency=" + dependency);
-					}
-					else {
-						dependency = "";
-					}
-					
-					records.add(new Record(activity, duration, dependency));
-					i++;
-				}
-				*/
 				// This is all PROOF-OF-CONCEPT -- NOT FINAL:
 				//records.add(new Record("A", 2, ""));
 				//records.add(new Record("B", 4, "A"));
@@ -175,10 +146,10 @@ public class Frame1 {
 				controller.doCalculation(records);
 				
 				// Our results table:
-				/*
+				
 				Paths pathFrame = new Paths(controller);
 				pathFrame.setVisible(true);
-				*/
+				
 				
 				// PROOF OF CONCEPT - NOT FINAL:
 				ArrayList<Result> results = controller.getResults();
@@ -192,6 +163,12 @@ public class Frame1 {
 		frmNetworkPathAnalyzer.getContentPane().add(btnNewButton);
 		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setRowCount(0);
+				model.addRow(new Object[] { "", "", ""});
+			}
+		});
 		btnClear.setBounds(340, 329, 97, 25);
 		frmNetworkPathAnalyzer.getContentPane().add(btnClear);
 		
@@ -202,26 +179,10 @@ public class Frame1 {
 		table_1 = new JTable();
 		scrollPane.setViewportView(table_1);
 		model = new DefaultTableModel(
-				new Object[][] {
-				{"", "", ""}/*,
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},*/
-			},
-			new String[]  {
-				"Activity", "Duration", "Dependencies"
-			});
+				new Object[][] { {"", "", ""} },
+				
+				new String[]  { "Activity", "Duration", "Dependencies" }
+		);
 		
 		table_1.setModel(model);
 		model.addTableModelListener(new TableModelListener() {
@@ -233,32 +194,7 @@ public class Frame1 {
 			    	model.addRow(new Object[] { "", "", ""});
 			    }
 			  }
-			});
-		
-		
-		/*
-		table_1.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-			},
-			new String[]  {
-				"Activity", "Duration", "Dependencies"
-			}
-		));*/
+		});
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmNetworkPathAnalyzer.setJMenuBar(menuBar);

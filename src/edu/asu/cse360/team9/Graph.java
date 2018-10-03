@@ -17,18 +17,16 @@ public class Graph {
 	{
 		String source;
 		String destination;
-		//int weight;
 		
-		Edge(String source, String destination /*, int weight */)
+		Edge(String source, String destination)
 		{
 			this.source = source;
 			this.destination = destination;
-			//this.weight = weight;
 		}
 		
 		public String toString()
 		{
-			return "[" + source + ", " + destination + /*", " + weight +*/ "]";
+			return "[" + source + ", " + destination + "]";
 		}
 	}
 	
@@ -38,9 +36,9 @@ public class Graph {
 		adjList = new HashMap<String, LinkedList<Edge>>();
 	}
 	
-	public void addEdge(String source, String destination /*, int weight */)
+	public void addEdge(String source, String destination)
 	{
-		Edge e = new Edge(source, destination /* , weight */);
+		Edge e = new Edge(source, destination);
 		
 		if(!adjList.containsKey(source))
 		{
@@ -72,6 +70,12 @@ public class Graph {
 		 
 		 System.out.println("Start: " + startActivity);
 		 System.out.println("Stop:  " + stopActivity);
+	}
+	
+	public ArrayList<Result> getPaths()
+	{
+		// NOTE: To pass the tests, this must return them in descending order by duration.
+		return null;
 	}
 	
 	public void setStartActivity(String startActivity)

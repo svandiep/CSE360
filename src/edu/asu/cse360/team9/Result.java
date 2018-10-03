@@ -1,6 +1,8 @@
 package edu.asu.cse360.team9;
 
 import java.util.*;
+
+import sun.reflect.generics.tree.ClassTypeSignature;
 /*
  * Represents a non-GUI model object of 
  * Path, Total Duration
@@ -29,5 +31,21 @@ public class Result {
 	public int getDuration()
 	{
 		return duration;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		System.out.println("Comparing...");
+		
+		if (o == null)
+			return false;
+		
+		if(o.getClass() != this.getClass() )
+			return false;
+		
+		Result r = (Result)o;
+		
+		return (this.getPath().equals(r.getPath()) && this.getDuration() == r.getDuration());
 	}
 }

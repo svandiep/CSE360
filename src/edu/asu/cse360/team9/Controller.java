@@ -58,8 +58,9 @@ public class Controller {
 	
 	public ArrayList<Result> getResults()
 	{
-		graph.getPaths(durations);
+		return graph.getPaths(durations);
 		
+		/*
 		ArrayList<Result> output = new ArrayList<Result>();
 		Result r1 = new Result();
 		r1.addPathNode("A", 2);
@@ -84,5 +85,6 @@ public class Controller {
 		
 		// Called by Paths JFrame on spawn to get the data for population of JTable.
 		return output;
+		*/
 	}
 }

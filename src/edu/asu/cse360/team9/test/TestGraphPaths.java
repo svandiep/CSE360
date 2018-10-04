@@ -43,7 +43,7 @@ class TestGraphPaths {
 		
 		for(int i = 0; i < expected_paths.size(); i++)
 		{
-			assertTrue( expected_paths.get(i).equals(actual.get(i)) );
+			assertTrue( actual.contains(expected_paths.get(i)) );
 		}
 	}
 	
@@ -84,7 +84,7 @@ class TestGraphPaths {
 		
 		for(int i = 0; i < expected_paths.size(); i++)
 		{
-			assertTrue( expected_paths.get(i).equals(actual.get(i)) );
+			assertTrue( actual.contains(expected_paths.get(i)) );
 		}
 	}
 	
@@ -139,7 +139,7 @@ class TestGraphPaths {
 		
 		for(int i = 0; i < expected_paths.size(); i++)
 		{
-			assertTrue( expected_paths.get(i).equals(actual.get(i)) );
+			assertTrue( actual.contains(expected_paths.get(i)) );
 		}
 	}
 	
@@ -207,7 +207,7 @@ class TestGraphPaths {
 		
 		for(int i = 0; i < expected_paths.size(); i++)
 		{
-			assertTrue( expected_paths.get(i).equals(actual.get(i)) );
+			assertTrue( actual.contains(expected_paths.get(i)) );
 		}
 	}
 	
@@ -297,7 +297,7 @@ class TestGraphPaths {
 		
 		for(int i = 0; i < expected_paths.size(); i++)
 		{
-			assertTrue( expected_paths.get(i).equals(actual.get(i)) );
+			assertTrue( actual.contains(expected_paths.get(i)) );
 		}
 	}
 	
@@ -406,7 +406,7 @@ class TestGraphPaths {
 		
 		for(int i = 0; i < expected_paths.size(); i++)
 		{
-			assertTrue( expected_paths.get(i).equals(actual.get(i)) );
+			assertTrue( actual.contains(expected_paths.get(i)) );
 		}
 	}
 }

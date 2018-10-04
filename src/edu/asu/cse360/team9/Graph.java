@@ -80,12 +80,56 @@ public class Graph {
 	
 	public ArrayList<Result> getPaths(HashMap<String, Integer> durations)
 	{
+		ArrayList<Result> results = new ArrayList<>();
+		HashMap<String, Boolean> visited = new HashMap<>();
+		for(String s : durations.keySet())
+		{
+			visited.put(s, false);
+		}
+		ArrayList<String> path = new ArrayList<>();
+		path.add(startActivity);
+		
+		List<List<String>> paths = new ArrayList<List<String>>();
+		DFS(paths, startActivity, visited, path);
+		
+		System.out.println("finished getPaths()");
+		
+		for(List<String> list : paths)
+		{
+			Result r = new Result();
+			for(String s : list)
+			{
+				r.addPathNode(s, durations.get(s));
+			}
+			results.add(r);
+		}
+		
+		Collections.sort(results);
+		
 		// NOTE: To pass the tests, this must return them in descending order by duration.
-		return null;
+		return results;
 	}
 	
-	private ArrayList<Result> depthFirstSearch() {
-		return null;
+	private void DFS(List<List<String>> output, String current, Map<String, Boolean> visited, List<String> path) {
+		
+		visited.put(current, true);
+		
+		if(current.equals(stopActivity))
+		{
+			output.add(new ArrayList<String>(path));
+		}
+		
+		for(Edge e : adjList.get(current))
+		{
+			if(!visited.get(e.destination))
+			{
+				path.add(e.destination);
+				DFS(output, e.destination, visited, path);
+				path.remove(e.destination);
+			}
+		}
+		
+		visited.put(current, false);
 	}
 	
 	public void setStartActivity(String startActivity)

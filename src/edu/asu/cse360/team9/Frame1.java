@@ -149,14 +149,6 @@ public class Frame1 {
 				
 				Paths pathFrame = new Paths(controller);
 				pathFrame.setVisible(true);
-				
-				
-				// PROOF OF CONCEPT - NOT FINAL:
-				ArrayList<Result> results = controller.getResults();
-				for(Result r : results)
-				{
-					System.out.println("The Path: " + r.getPath() + " takes " + r.getDuration() + " weeks.");
-				}
 			}
 		});
 		btnNewButton.setBounds(449, 329, 97, 25);

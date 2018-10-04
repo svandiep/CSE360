@@ -80,7 +80,7 @@ public class Frame1 {
 				if (networkTable.isEditing())
 				    networkTable.getCellEditor().stopCellEditing();
 				
-				int duration;
+				int duration = 0;
 				String activity;
 				String dependency;
 				int rows = model.getRowCount();
@@ -93,16 +93,35 @@ public class Frame1 {
 					}
 					
 					activity = model.getValueAt(idx, 0).toString();
-					duration = Integer.parseInt(model.getValueAt(idx, 1).toString());
+					
+					try {
+						duration = Integer.parseInt(model.getValueAt(idx, 1).toString());
+					}
+					catch(NumberFormatException nfe) {
+						JOptionPane.showMessageDialog(null, "Invalid duration provided.");
+					}
+					
 					dependency = model.getValueAt(idx, 2).toString();
 					records.add(new Record(activity, duration, dependency));
 				}
 				
-				controller.doCalculation(records);
+				ArrayList<Result> results = new ArrayList<>();
+				try {
+					controller.doCalculation(records);
+					results = controller.getResults();
+					
+					// Our results table:
+					Paths pathFrame = new Paths(results);
+					pathFrame.setVisible(true);
+				}
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+				}
+				
 				
 				// Our results table:
-				Paths pathFrame = new Paths(controller);
-				pathFrame.setVisible(true);
+				//Paths pathFrame = new Paths(results);
+				//pathFrame.setVisible(true);
 			}
 		});
 		btnNewButton.setBounds(449, 329, 97, 25);

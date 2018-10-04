@@ -19,8 +19,12 @@ class TestGraphCycles {
 		Graph g = new Graph();
 		g.addEdge("A", "B");
 		g.addEdge("B", "A");
+		g.setStartActivity("A");
+		g.setStopActivity("B");
 		
-		fail("Not yet implemented");
+		assertThrows(IllegalStateException.class, () -> {
+			g.getPaths(null); // we don't care about results here.
+	    });
 	}
 	
 	@Test
@@ -36,8 +40,12 @@ class TestGraphCycles {
 		g.addEdge("A", "B");
 		g.addEdge("B", "C");
 		g.addEdge("C", "B");
+		g.setStartActivity("A");
+		g.setStopActivity("C");
 		
-		fail("Not yet implemented");
+		assertThrows(IllegalStateException.class, () -> {
+			g.getPaths(null); // we don't care about results here.
+	    });
 		
 	}
 	
@@ -55,7 +63,11 @@ class TestGraphCycles {
 		g.addEdge("A", "B");
 		g.addEdge("B", "C");
 		g.addEdge("C", "A");
+		g.setStartActivity("A");
+		g.setStopActivity("C");
 		
-		fail("Not yet implemented");
+		assertThrows(IllegalStateException.class, () -> {
+			g.getPaths(null); // we don't care about results here.
+	    });
 	}
 }

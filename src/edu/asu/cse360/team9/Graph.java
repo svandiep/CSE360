@@ -82,7 +82,7 @@ public class Graph {
 	{
 		ArrayList<Result> results = new ArrayList<>();
 		HashMap<String, Boolean> visited = new HashMap<>();
-		for(String s : durations.keySet())
+		for(String s : adjList.keySet())
 		{
 			visited.put(s, false);
 		}
@@ -92,18 +92,18 @@ public class Graph {
 		List<List<String>> paths = new ArrayList<List<String>>();
 		DFS(paths, startActivity, visited, path);
 		
-		System.out.println("finished getPaths()");
-		
-		for(List<String> list : paths)
+		if(durations != null)
 		{
-			Result r = new Result();
-			for(String s : list)
+			for(List<String> list : paths)
 			{
-				r.addPathNode(s, durations.get(s));
+				Result r = new Result();
+				for(String s : list)
+				{
+					r.addPathNode(s, durations.get(s));
+				}
+				results.add(r);
 			}
-			results.add(r);
 		}
-		
 		Collections.sort(results);
 		
 		// NOTE: To pass the tests, this must return them in descending order by duration.
@@ -126,6 +126,10 @@ public class Graph {
 				path.add(e.destination);
 				DFS(output, e.destination, visited, path);
 				path.remove(e.destination);
+			}
+			else
+			{
+				throw new IllegalStateException("Cycle detected.");
 			}
 		}
 		

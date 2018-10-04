@@ -53,10 +53,10 @@ public class Paths extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Paths(Controller controller) {
+	public Paths(ArrayList<Result> results) {
 		
 		// Keep reference to controller so the results can be polled later.
-		this.controller = controller;
+		//this.controller = controller;
 		
 		this.setTitle("Path Analysis");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -115,7 +115,7 @@ public class Paths extends JFrame {
 		
 		// We will use the populated data to fill the table
 		// Currently using dummy data for showing example.
-		ArrayList<Result> results = controller.getResults();
+		//ArrayList<Result> results = controller.getResults();
 		for(Result r : results)
 		{
 			model.addRow(new Object[] { r.getPath(), r.getDuration() } );

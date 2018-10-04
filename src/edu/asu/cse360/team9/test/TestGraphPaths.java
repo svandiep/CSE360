@@ -31,7 +31,13 @@ class TestGraphPaths {
 		g.setStopActivity("B");
 		
 		g.addEdge("A", "B");
-		ArrayList<Result> actual = g.getPaths();
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put("A", 1);
+				put("B", 2);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
 		
 		assertTrue(expected_paths.size() == actual.size());
 		
@@ -64,7 +70,15 @@ class TestGraphPaths {
 		
 		g.addEdge("A", "B");
 		g.addEdge("B", "C");
-		ArrayList<Result> actual = g.getPaths();
+		
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put("A", 1);
+				put("B", 2);
+				put("C", 3);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
 		
 		assertTrue(expected_paths.size() == actual.size());
 		
@@ -110,7 +124,16 @@ class TestGraphPaths {
 		g.addEdge("A", "C");
 		g.addEdge("B", "D");
 		g.addEdge("C", "D");
-		ArrayList<Result> actual = g.getPaths();
+		
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put("A", 1);
+				put("B", 2);
+				put("C", 3);
+				put("D", 4);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
 		
 		assertTrue(expected_paths.size() == actual.size());
 		
@@ -168,7 +191,17 @@ class TestGraphPaths {
 		
 		g.addEdge("A", "D");
 		g.addEdge("D", "E");
-		ArrayList<Result> actual = g.getPaths();
+		
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put("A", 1);
+				put("B", 2);
+				put("C", 3);
+				put("D", 4);
+				put("E", 5);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
 		
 		assertTrue(expected_paths.size() == actual.size());
 		
@@ -245,7 +278,20 @@ class TestGraphPaths {
 		
 		g.addEdge("G", "H");
 
-		ArrayList<Result> actual = g.getPaths();
+		
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put("A", 1);
+				put("B", 2);
+				put("C", 3);
+				put("D", 4);
+				put("E", 5);
+				put("F", 6);
+				put("G", 7);
+				put("H", 8);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
 		
 		assertTrue(expected_paths.size() == actual.size());
 		
@@ -342,7 +388,19 @@ class TestGraphPaths {
 		g.addEdge("F", "H");
 		g.addEdge("G", "H");
 		
-		ArrayList<Result> actual = g.getPaths();
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put("A", 1);
+				put("B", 2);
+				put("C", 3);
+				put("D", 4);
+				put("E", 5);
+				put("F", 6);
+				put("G", 7);
+				put("H", 8);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
 		
 		assertTrue(expected_paths.size() == actual.size());
 		

@@ -78,9 +78,13 @@ public class Graph {
 		 System.out.println("Stop:  " + stopActivity);
 	}
 	
-	public ArrayList<Result> getPaths()
+	public ArrayList<Result> getPaths(HashMap<String, Integer> durations)
 	{
 		// NOTE: To pass the tests, this must return them in descending order by duration.
+		return null;
+	}
+	
+	private ArrayList<Result> depthFirstSearch() {
 		return null;
 	}
 	

@@ -11,6 +11,7 @@ import java.util.*;
 public class Controller {
 	
 	private Graph graph;
+	private HashMap<String, Integer> durations;
 	
 	public void doCalculation(List<Record> records)
 	{
@@ -18,10 +19,10 @@ public class Controller {
 		//
 		// First, create a Graph, and identify start node
 		graph = new Graph();
-		HashMap<String, Integer> activities = new HashMap<String, Integer>();
+		durations = new HashMap<String, Integer>();
 		for(Record r : records)
 		{
-			activities.put(r.getActivity(), r.getDuration());
+			durations.put(r.getActivity(), r.getDuration());
 		}
 		
 		// If an activity is a dependency, then it cannot be a final node.
@@ -43,7 +44,7 @@ public class Controller {
 		}
 		
 		// For all activities' keys, if it doesn't exist in dependents, it's final.
-		for(String s : activities.keySet())
+		for(String s : durations.keySet())
 		{
 			if(!dependents.contains(s))
 			{
@@ -57,6 +58,8 @@ public class Controller {
 	
 	public ArrayList<Result> getResults()
 	{
+		graph.getPaths(durations);
+		
 		ArrayList<Result> output = new ArrayList<Result>();
 		Result r1 = new Result();
 		r1.addPathNode("A", 2);

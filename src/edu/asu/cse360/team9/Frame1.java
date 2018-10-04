@@ -18,10 +18,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.*;
 
+
 public class Frame1 {
 
 	private JFrame frmNetworkPathAnalyzer;
-	private JTable table_1;
+	private JTable networkTable;
 	private DefaultTableModel model;
 	private Controller controller;
 
@@ -68,49 +69,16 @@ public class Frame1 {
 				// have at least a row count of 2.
 				if(model.getRowCount() == 1)
 					return;
-				
-				//JOptionPane.showMessageDialog(null, "Cycle detected!");
+
 				
 				// We will build the list of records from the table data on the form,
 				// and then provide it to the controller to do the calculation.
 				// The result will be passed to the Paths frame on launch to be displayed.
 				controller = new Controller();
 				ArrayList<Record> records = new ArrayList<Record>();
-				
-				// From PERT slides:
-				/*
-				 	Activity		Predecessor		Weeks		comment
-				 	{dest}			{source}
-				 	A				--				2			0 (not entirely sure about this yet)
-				 	B				A				4			1
-				 	C				B				5			2
-				 	D				B,F				6			3
-				 	E				C,D				3			4
-				 	F				A				5			5
-				 	
-				 	
-				 	   
-				 	Ex: 
-				 	
-				 	
-				 	     2         4        5
-				 	[A] ----> [B] ----> [C] -------+
-				 	 |         |   4               +----> [E] 
-				 	 |         +------+          6 |
-				 	 |      2         +----> [D] --+
-				     +--------> [F] --+ 5
-				 
-				 
-				 	Algorithm:
-				 	1) Build paired list of activities and durations P
-				 	2) Go through list, and build edge where source is predecessor, destination
-				 	   is activity, and duration is P[predecessor].duration.
-				 
-				 */
-				//Get data from table with loop
-				
-				if (table_1.isEditing())
-				    table_1.getCellEditor().stopCellEditing();
+			
+				if (networkTable.isEditing())
+				    networkTable.getCellEditor().stopCellEditing();
 				
 				int duration;
 				String activity;
@@ -130,23 +98,9 @@ public class Frame1 {
 					records.add(new Record(activity, duration, dependency));
 				}
 				
-				for(Record r : records)
-				{
-					System.out.println(r);
-				}
-				
-				// This is all PROOF-OF-CONCEPT -- NOT FINAL:
-				//records.add(new Record("A", 2, ""));
-				//records.add(new Record("B", 4, "A"));
-				//records.add(new Record("C", 5, "B"));
-				//records.add(new Record("D", 6, "B,F"));
-				//records.add(new Record("E", 3, "C,D"));
-				//records.add(new Record("F", 5, "A"));
-				
 				controller.doCalculation(records);
 				
 				// Our results table:
-				
 				Paths pathFrame = new Paths(controller);
 				pathFrame.setVisible(true);
 			}
@@ -168,15 +122,15 @@ public class Frame1 {
 		scrollPane.setBounds(37, 60, 509, 240);
 		frmNetworkPathAnalyzer.getContentPane().add(scrollPane);
 		
-		table_1 = new JTable();
-		scrollPane.setViewportView(table_1);
+		networkTable = new JTable();
+		scrollPane.setViewportView(networkTable);
 		model = new DefaultTableModel(
 				new Object[][] { {"", "", ""} },
 				
 				new String[]  { "Activity", "Duration", "Dependencies" }
 		);
 		
-		table_1.setModel(model);
+		networkTable.setModel(model);
 		model.addTableModelListener(new TableModelListener() {
 			  @Override
 			  public void tableChanged(TableModelEvent e) {

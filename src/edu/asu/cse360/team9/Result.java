@@ -7,7 +7,7 @@ import sun.reflect.generics.tree.ClassTypeSignature;
  * Represents a non-GUI model object of 
  * Path, Total Duration
  */
-public class Result {
+public class Result implements Comparable<Result> {
 	
 	private ArrayList<String> path;
 	private int duration;
@@ -47,5 +47,11 @@ public class Result {
 		Result r = (Result)o;
 		
 		return (this.getPath().equals(r.getPath()) && this.getDuration() == r.getDuration());
+	}
+
+	@Override
+	public int compareTo(Result other) {
+		// We want to sort in descending order by duration.
+		return other.duration - this.duration;
 	}
 }

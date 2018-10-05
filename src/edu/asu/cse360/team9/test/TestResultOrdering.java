@@ -15,15 +15,15 @@ class TestResultOrdering {
 		ArrayList<Result> results = new ArrayList<>();
 		
 		Result r1 = new Result();
-		r1.addPathNode("A", 50);
+		r1.addPathActivity("A", 50);
 		results.add(r1);
 		
 		Result r2 = new Result();
-		r2.addPathNode("B", 75);
+		r2.addPathActivity("B", 75);
 		results.add(r2);
 		
 		Result r3 = new Result();
-		r3.addPathNode("C", 100);
+		r3.addPathActivity("C", 100);
 		results.add(r3);
 		
 		Collections.sort(results);

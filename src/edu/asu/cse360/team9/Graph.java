@@ -111,7 +111,7 @@ public class Graph {
 				Result r = new Result();
 				for(String s : list)
 				{
-					r.addPathNode(s, durations.get(s));
+					r.addPathActivity(s, durations.get(s));
 				}
 				results.add(r);
 			}

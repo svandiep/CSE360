@@ -29,6 +29,68 @@ public class Frame1 {
 	/**
 	 * Launch the application.
 	 */
+	private void calculate() {
+		// Don't want user calculating when there's nothing there,
+		// and an edit will create a new row, so a valid graph will
+		// have at least a row count of 2.
+		if(model.getRowCount() == 1)
+			return;
+
+		
+		// We will build the list of records from the table data on the form,
+		// and then provide it to the controller to do the calculation.
+		// The result will be passed to the Paths frame on launch to be displayed.
+		controller = new Controller();
+		ArrayList<Record> records = new ArrayList<Record>();
+	
+		if (networkTable.isEditing())
+		    networkTable.getCellEditor().stopCellEditing();
+		
+		int duration = 0;
+		String activity;
+		String dependency;
+		int rows = model.getRowCount();
+		for(int idx = 0; idx < rows; idx++)
+		{
+			if(model.getValueAt(idx, 0).toString().isEmpty())
+			{
+				// We skip rows that don't have an activity.
+				continue;
+			}
+			
+			activity = model.getValueAt(idx, 0).toString();
+			
+			try {
+				duration = Integer.parseInt(model.getValueAt(idx, 2).toString());
+			}
+			catch(NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, "Invalid duration provided.");
+			}
+			
+			dependency = model.getValueAt(idx, 1).toString();
+			records.add(new Record(activity, duration, dependency));
+		}
+		
+		ArrayList<Result> results = new ArrayList<>();
+		try {
+			controller.doCalculation(records);
+			results = controller.getResults();
+			
+			// Our results table:
+			Paths pathFrame = new Paths(results);
+			pathFrame.setVisible(true);
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
+		
+		
+		// Our results table:
+		//Paths pathFrame = new Paths(results);
+		//pathFrame.setVisible(true);
+	}
+
+		
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -63,65 +125,7 @@ public class Frame1 {
 		JButton btnNewButton = new JButton("Calculate");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				// Don't want user calculating when there's nothing there,
-				// and an edit will create a new row, so a valid graph will
-				// have at least a row count of 2.
-				if(model.getRowCount() == 1)
-					return;
-
-				
-				// We will build the list of records from the table data on the form,
-				// and then provide it to the controller to do the calculation.
-				// The result will be passed to the Paths frame on launch to be displayed.
-				controller = new Controller();
-				ArrayList<Record> records = new ArrayList<Record>();
-			
-				if (networkTable.isEditing())
-				    networkTable.getCellEditor().stopCellEditing();
-				
-				int duration = 0;
-				String activity;
-				String dependency;
-				int rows = model.getRowCount();
-				for(int idx = 0; idx < rows; idx++)
-				{
-					if(model.getValueAt(idx, 0).toString().isEmpty())
-					{
-						// We skip rows that don't have an activity.
-						continue;
-					}
-					
-					activity = model.getValueAt(idx, 0).toString();
-					
-					try {
-						duration = Integer.parseInt(model.getValueAt(idx, 2).toString());
-					}
-					catch(NumberFormatException nfe) {
-						JOptionPane.showMessageDialog(null, "Invalid duration provided.");
-					}
-					
-					dependency = model.getValueAt(idx, 1).toString();
-					records.add(new Record(activity, duration, dependency));
-				}
-				
-				ArrayList<Result> results = new ArrayList<>();
-				try {
-					controller.doCalculation(records);
-					results = controller.getResults();
-					
-					// Our results table:
-					Paths pathFrame = new Paths(results);
-					pathFrame.setVisible(true);
-				}
-				catch(Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				}
-				
-				
-				// Our results table:
-				//Paths pathFrame = new Paths(results);
-				//pathFrame.setVisible(true);
+				calculate();
 			}
 		});
 		btnNewButton.setBounds(449, 329, 97, 25);
@@ -149,8 +153,8 @@ public class Frame1 {
 				new String[]  { "Activity", "Dependencies", "Duration" }
 		);
         networkTable.setModel(model);
-        networkTable.getColumnModel().getColumn(0).setPreferredWidth(275);
-        networkTable.getColumnModel().getColumn(1).setPreferredWidth(275);
+        networkTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        networkTable.getColumnModel().getColumn(1).setPreferredWidth(400);
         networkTable.getColumnModel().getColumn(2).setPreferredWidth(15);
 		model.addTableModelListener(new TableModelListener() {
 			  @Override
@@ -181,6 +185,7 @@ public class Frame1 {
 		JMenuItem mntmCalculate = new JMenuItem("Calculate");
 		mntmCalculate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				calculate();
 			}
 		});
 		mnFile.add(mntmCalculate);
@@ -200,6 +205,13 @@ public class Frame1 {
 		mnHelp.add(mntmUserGuide);
 		
 		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(frmNetworkPathAnalyzer, "Network Path Analyzer, v1.0\r\n" + 
+						"Brandon Dressman, Scott VanDiepenbos and Michael Sneberger\r\n" + 
+						"Copyright 2018");
+			}
+		});
 		mnHelp.add(mntmAbout);
 	}
 }

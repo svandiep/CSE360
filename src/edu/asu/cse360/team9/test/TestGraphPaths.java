@@ -14,7 +14,7 @@ class TestGraphPaths {
 	void testPath01() {
 		/*
 		     1       2
-	 [S] -> [A] --> [B]
+	  		[A] --> [B]
 	  
 	 		Smallest path possible = A, B : 3
 	  
@@ -27,12 +27,13 @@ class TestGraphPaths {
 		expected_paths.add(result);
 		
 		Graph g = new Graph();
-		//g.setStartActivity("A");
 		g.setStopActivity("B");
 		
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
 			{ 
+				put(Graph.START_ACTIVITY, 0);
 				put("A", 1);
 				put("B", 2);
 			}
@@ -65,14 +66,15 @@ class TestGraphPaths {
 		expected_paths.add(result);
 		
 		Graph g = new Graph();
-		//g.setStartActivity("A");
 		g.setStopActivity("C");
 		
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		g.addEdge("B", "C");
 		
 		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
 			{ 
+				put(Graph.START_ACTIVITY, 0);
 				put("A", 1);
 				put("B", 2);
 				put("C", 3);
@@ -117,9 +119,9 @@ class TestGraphPaths {
 		expected_paths.add(p2);
 		
 		Graph g = new Graph();
-		//g.setStartActivity("A");
 		g.setStopActivity("D");
 		
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		g.addEdge("A", "C");
 		g.addEdge("B", "D");
@@ -127,6 +129,7 @@ class TestGraphPaths {
 		
 		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
 			{ 
+				put(Graph.START_ACTIVITY, 0);
 				put("A", 1);
 				put("B", 2);
 				put("C", 3);
@@ -180,9 +183,9 @@ class TestGraphPaths {
 		expected_paths.add(p3);
 		
 		Graph g = new Graph();
-		//g.setStartActivity("A");
 		g.setStopActivity("E");
 		
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		g.addEdge("B", "E");
 		
@@ -194,6 +197,7 @@ class TestGraphPaths {
 		
 		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
 			{ 
+				put(Graph.START_ACTIVITY, 0);
 				put("A", 1);
 				put("B", 2);
 				put("C", 3);
@@ -259,9 +263,9 @@ class TestGraphPaths {
 		expected_paths.add(p4);
 		
 		Graph g = new Graph();
-		//g.setStartActivity("A");
 		g.setStopActivity("H");
 		
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		g.addEdge("B", "F");
 		
@@ -281,6 +285,7 @@ class TestGraphPaths {
 		
 		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
 			{ 
+				put(Graph.START_ACTIVITY, 0);
 				put("A", 1);
 				put("B", 2);
 				put("C", 3);
@@ -371,9 +376,9 @@ class TestGraphPaths {
 		expected_paths.add(p6);
 		
 		Graph g = new Graph();
-		//g.setStartActivity("A");
 		g.setStopActivity("H");
 		
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		g.addEdge("A", "C");
 		
@@ -390,6 +395,7 @@ class TestGraphPaths {
 		
 		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
 			{ 
+				put(Graph.START_ACTIVITY, 0);
 				put("A", 1);
 				put("B", 2);
 				put("C", 3);
@@ -398,6 +404,122 @@ class TestGraphPaths {
 				put("F", 6);
 				put("G", 7);
 				put("H", 8);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
+		
+		assertTrue(expected_paths.size() == actual.size());
+		
+		for(int i = 0; i < expected_paths.size(); i++)
+		{
+			assertTrue( actual.contains(expected_paths.get(i)) );
+		}
+	}
+	
+	@Test
+	void testPath07() {
+		/*
+				 1
+				[A] ---+                     5        7
+				       |              +---- [E] ---- [G] ---+
+			     2     |       4      |                     |     9
+				[B] ---+----- [D] ----+                     +--- [I]
+				       |              |      6        8     |
+				 3     |              +---- [F] ---- [H] ---+
+				[C] ---+
+		
+			Path = 	A, D, E, G, I : 26 
+					A, D, F, H, I : 28
+					B, D, E, G, I : 27
+					B, D, F, H, I : 29
+					C, D, E, G, I : 28
+					C, D, F, H, I : 30
+		
+		 */
+		
+		ArrayList<Result> expected_paths = new ArrayList<>();
+		
+		Result p1 = new Result();
+		p1.addPathActivity("A", 1);
+		p1.addPathActivity("D", 4);
+		p1.addPathActivity("E", 5);
+		p1.addPathActivity("G", 7);
+		p1.addPathActivity("I", 9);
+		expected_paths.add(p1);
+		
+		Result p2 = new Result();
+		p2.addPathActivity("A", 1);
+		p2.addPathActivity("D", 4);
+		p2.addPathActivity("F", 6);
+		p2.addPathActivity("H", 8);
+		p2.addPathActivity("I", 9);
+		expected_paths.add(p2);
+		
+		Result p3 = new Result();
+		p3.addPathActivity("B", 2);
+		p3.addPathActivity("D", 4);
+		p3.addPathActivity("E", 5);
+		p3.addPathActivity("G", 7);
+		p3.addPathActivity("I", 9);
+		expected_paths.add(p3);
+		
+		Result p4 = new Result();
+		p4.addPathActivity("B", 2);
+		p4.addPathActivity("D", 4);
+		p4.addPathActivity("F", 6);
+		p4.addPathActivity("H", 8);
+		p4.addPathActivity("I", 9);
+		expected_paths.add(p4);
+		
+		Result p5 = new Result();
+		p5.addPathActivity("C", 3);
+		p5.addPathActivity("D", 4);
+		p5.addPathActivity("E", 5);
+		p5.addPathActivity("G", 7);
+		p5.addPathActivity("I", 9);
+		expected_paths.add(p5);
+		
+		Result p6 = new Result();
+		p6.addPathActivity("C", 3);
+		p6.addPathActivity("D", 4);
+		p6.addPathActivity("F", 6);
+		p6.addPathActivity("H", 8);
+		p6.addPathActivity("I", 9);
+		expected_paths.add(p6);
+		
+		Graph g = new Graph();
+		g.setStopActivity("I");
+		
+		g.addEdge(Graph.START_ACTIVITY, "A");
+		g.addEdge(Graph.START_ACTIVITY, "B");
+		g.addEdge(Graph.START_ACTIVITY, "C");
+		
+		g.addEdge("A", "D");
+		g.addEdge("B", "D");
+		g.addEdge("C", "D");
+		
+		g.addEdge("D", "E");
+		g.addEdge("D", "F");
+		
+		g.addEdge("E", "G");
+		g.addEdge("F", "H");
+		
+		g.addEdge("G", "I");
+		g.addEdge("H", "I");
+		
+		
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put(Graph.START_ACTIVITY, 0);
+				put("A", 1);
+				put("B", 2);
+				put("C", 3);
+				put("D", 4);
+				put("E", 5);
+				put("F", 6);
+				put("G", 7);
+				put("H", 8);
+				put("I", 9);
 			}
 		};
 		ArrayList<Result> actual = g.getPaths(durations);

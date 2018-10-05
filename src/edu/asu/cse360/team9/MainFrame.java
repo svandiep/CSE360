@@ -18,14 +18,36 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.*;
 
-
+/**
+ * Main frame of application, which provides user ability to enter a collection
+ * of activities by rows along with their dependencies and durations.
+ * 
+ * Upon completion, user may click calculate or clear
+ * 	- Calculate: Identifies all paths between start and final activities.
+ *  - Clear: Removes all table data.
+ *  
+ *  Additionally, menu items are provided:
+ *  - New Diagram: See Clear
+ *  - Calculate: See Calculate
+ *  - Exit: exits the application
+ *  
+ *  - About: Shows application authors, version, and copyright.
+ *  - User Guide: Displays user guide
+ *
+ */
 public class MainFrame {
 
 	private JFrame frmNetworkPathAnalyzer;
 	private JTable networkTable;
+	
+	// Data of the table:
 	private DefaultTableModel model;
+	
+	// Bridge between GUI and model of source code.
 	private Controller controller;
 
+	// Performs the calculation of a given collection of rows, along
+	// with error handling.
 	private void calculate() {
 		// Don't want user calculating when there's nothing there,
 		// and an edit will create a new row, so a valid graph will
@@ -40,31 +62,35 @@ public class MainFrame {
 		controller = new Controller();
 		ArrayList<Record> records = new ArrayList<Record>();
 	
+		// When user is working in a cell, and selects calculate, their current edit
+		// is not saved, so this forces a commit on the table.
 		if (networkTable.isEditing())
 		    networkTable.getCellEditor().stopCellEditing();
 		
 		int duration = 0;
 		String activity;
 		String dependency;
-		int rows = model.getRowCount();
-		for(int idx = 0; idx < rows; idx++)
+		
+		// Iterate over all rows in the table:
+		for(int idx = 0; idx < model.getRowCount(); idx++)
 		{
+			// We skip rows that don't have an activity.
 			if(model.getValueAt(idx, 0).toString().isEmpty())
-			{
-				// We skip rows that don't have an activity.
 				continue;
-			}
 			
 			activity = model.getValueAt(idx, 0).toString();
+			dependency = model.getValueAt(idx, 1).toString();
 			
 			try {
 				duration = Integer.parseInt(model.getValueAt(idx, 2).toString());
 			}
 			catch(NumberFormatException nfe) {
-				JOptionPane.showMessageDialog(null, "Invalid duration provided.");
+				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + idx+1);
+				return;
 			}
 			
-			dependency = model.getValueAt(idx, 1).toString();
+			// With properly parsed data, we construct a Record object to be
+			// used in calculations.
 			records.add(new Record(activity, duration, dependency));
 		}
 		
@@ -77,17 +103,11 @@ public class MainFrame {
 			Paths pathFrame = new Paths(results);
 			pathFrame.setVisible(true);
 		}
+		// TODO: Handle exceptions better. This is too general.
 		catch(Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage());
 		}
-		
-		
-		// Our results table:
-		//Paths pathFrame = new Paths(results);
-		//pathFrame.setVisible(true);
 	}
-
-		
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -101,17 +121,11 @@ public class MainFrame {
 			}
 		});
 	}
-	
-	/**
-	 * Create the application.
-	 */
+
 	public MainFrame() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frmNetworkPathAnalyzer = new JFrame();
 		frmNetworkPathAnalyzer.setTitle("Network Path Analyzer");

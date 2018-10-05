@@ -96,7 +96,7 @@ public class MainFrame {
 		
 		ArrayList<Result> results = new ArrayList<>();
 		try {
-			controller.doCalculation(records);
+			controller.populateGraph(records);
 			results = controller.getResults();
 			
 			// Our results table:

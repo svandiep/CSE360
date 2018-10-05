@@ -19,16 +19,13 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 
 
-public class Frame1 {
+public class MainFrame {
 
 	private JFrame frmNetworkPathAnalyzer;
 	private JTable networkTable;
 	private DefaultTableModel model;
 	private Controller controller;
 
-	/**
-	 * Launch the application.
-	 */
 	private void calculate() {
 		// Don't want user calculating when there's nothing there,
 		// and an edit will create a new row, so a valid graph will
@@ -96,7 +93,7 @@ public class Frame1 {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Frame1 window = new Frame1();
+					MainFrame window = new MainFrame();
 					window.frmNetworkPathAnalyzer.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -108,7 +105,7 @@ public class Frame1 {
 	/**
 	 * Create the application.
 	 */
-	public Frame1() {
+	public MainFrame() {
 		initialize();
 	}
 

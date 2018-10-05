@@ -14,7 +14,7 @@ class TestGraphPaths {
 	void testPath01() {
 		/*
 		     1       2
-	  		[A] --> [B]
+	 [S] -> [A] --> [B]
 	  
 	 		Smallest path possible = A, B : 3
 	  

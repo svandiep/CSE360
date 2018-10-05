@@ -18,45 +18,24 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.util.*;
 
+/***
+ * Displays the results of successful calculation as a table of
+ * paths and their durations ordered by duration descending.
+ *
+ * Table is read-only.
+ */
 public class Paths extends JFrame {
-
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
 	private DefaultTableModel model;
 	private JScrollPane scrollPane;
-	
-	// Provided via constructor
-	private Controller controller;
-	
-	
-	/**
-	 * Launch the application.
-	 */
-	/* No main needed here
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Paths frame = new Paths();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	*/
+
 	public void CloseFrame(){
 	    super.dispose();
 	}
-	/**
-	 * Create the frame.
-	 */
+
 	public Paths(ArrayList<Result> results) {
-		
-		// Keep reference to controller so the results can be polled later.
-		//this.controller = controller;
 		
 		this.setTitle("Path Analysis");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

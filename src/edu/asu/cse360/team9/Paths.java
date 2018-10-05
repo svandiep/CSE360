@@ -98,8 +98,8 @@ public class Paths extends JFrame {
 		});
 		model = (DefaultTableModel) table.getModel();
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(200);
-		table.getColumnModel().getColumn(1).setPreferredWidth(62);
+		table.getColumnModel().getColumn(0).setPreferredWidth(350);
+		table.getColumnModel().getColumn(1).setPreferredWidth(15);
 		table.getColumnModel().getColumn(1).setMinWidth(10);
 		table.getColumnModel().getColumn(1).setMaxWidth(2147483644);
 		model.addTableModelListener(new TableModelListener() {

@@ -56,7 +56,7 @@ public class Frame1 {
 	private void initialize() {
 		frmNetworkPathAnalyzer = new JFrame();
 		frmNetworkPathAnalyzer.setTitle("Network Path Analyzer");
-		frmNetworkPathAnalyzer.setBounds(100, 100, 587, 459);
+		frmNetworkPathAnalyzer.setBounds(100, 100, 800, 459);
 		frmNetworkPathAnalyzer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmNetworkPathAnalyzer.getContentPane().setLayout(null);
 		
@@ -95,13 +95,13 @@ public class Frame1 {
 					activity = model.getValueAt(idx, 0).toString();
 					
 					try {
-						duration = Integer.parseInt(model.getValueAt(idx, 1).toString());
+						duration = Integer.parseInt(model.getValueAt(idx, 2).toString());
 					}
 					catch(NumberFormatException nfe) {
 						JOptionPane.showMessageDialog(null, "Invalid duration provided.");
 					}
 					
-					dependency = model.getValueAt(idx, 2).toString();
+					dependency = model.getValueAt(idx, 1).toString();
 					records.add(new Record(activity, duration, dependency));
 				}
 				
@@ -138,7 +138,7 @@ public class Frame1 {
 		frmNetworkPathAnalyzer.getContentPane().add(btnClear);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(37, 60, 509, 240);
+		scrollPane.setBounds(38, 62, 701, 240);
 		frmNetworkPathAnalyzer.getContentPane().add(scrollPane);
 		
 		networkTable = new JTable();
@@ -146,10 +146,12 @@ public class Frame1 {
 		model = new DefaultTableModel(
 				new Object[][] { {"", "", ""} },
 				
-				new String[]  { "Activity", "Duration", "Dependencies" }
+				new String[]  { "Activity", "Dependencies", "Duration" }
 		);
-		
-		networkTable.setModel(model);
+        networkTable.setModel(model);
+        networkTable.getColumnModel().getColumn(0).setPreferredWidth(275);
+        networkTable.getColumnModel().getColumn(1).setPreferredWidth(275);
+        networkTable.getColumnModel().getColumn(2).setPreferredWidth(15);
 		model.addTableModelListener(new TableModelListener() {
 			  @Override
 			  public void tableChanged(TableModelEvent e) {
@@ -168,9 +170,19 @@ public class Frame1 {
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmNewDiagram = new JMenuItem("New Diagram");
+		mntmNewDiagram.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				model.setRowCount(0);
+				model.addRow(new Object[] { "", "", ""});	
+			}
+		});
 		mnFile.add(mntmNewDiagram);
 		
 		JMenuItem mntmCalculate = new JMenuItem("Calculate");
+		mntmCalculate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		mnFile.add(mntmCalculate);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
@@ -181,16 +193,13 @@ public class Frame1 {
 		});
 		mnFile.add(mntmExit);
 		
-		JMenu mnAbout = new JMenu("About");
-		menuBar.add(mnAbout);
-		
-		JMenuItem mntmVersion = new JMenuItem("Version");
-		mnAbout.add(mntmVersion);
-		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
 		JMenuItem mntmUserGuide = new JMenuItem("User Guide");
 		mnHelp.add(mntmUserGuide);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mnHelp.add(mntmAbout);
 	}
 }

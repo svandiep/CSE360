@@ -19,6 +19,9 @@ public class Result implements Comparable<Result> {
 	
 	public void addPathNode(String node, int duration)
 	{
+		if(node.equals(Graph.START_ACTIVITY))
+			return;
+		
 		path.add(node);
 		this.duration += duration;
 	}

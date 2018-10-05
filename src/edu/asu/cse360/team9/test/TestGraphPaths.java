@@ -27,7 +27,7 @@ class TestGraphPaths {
 		expected_paths.add(result);
 		
 		Graph g = new Graph();
-		g.setStartActivity("A");
+		//g.setStartActivity("A");
 		g.setStopActivity("B");
 		
 		g.addEdge("A", "B");
@@ -65,7 +65,7 @@ class TestGraphPaths {
 		expected_paths.add(result);
 		
 		Graph g = new Graph();
-		g.setStartActivity("A");
+		//g.setStartActivity("A");
 		g.setStopActivity("C");
 		
 		g.addEdge("A", "B");
@@ -117,7 +117,7 @@ class TestGraphPaths {
 		expected_paths.add(p2);
 		
 		Graph g = new Graph();
-		g.setStartActivity("A");
+		//g.setStartActivity("A");
 		g.setStopActivity("D");
 		
 		g.addEdge("A", "B");
@@ -180,7 +180,7 @@ class TestGraphPaths {
 		expected_paths.add(p3);
 		
 		Graph g = new Graph();
-		g.setStartActivity("A");
+		//g.setStartActivity("A");
 		g.setStopActivity("E");
 		
 		g.addEdge("A", "B");
@@ -259,7 +259,7 @@ class TestGraphPaths {
 		expected_paths.add(p4);
 		
 		Graph g = new Graph();
-		g.setStartActivity("A");
+		//g.setStartActivity("A");
 		g.setStopActivity("H");
 		
 		g.addEdge("A", "B");
@@ -371,7 +371,7 @@ class TestGraphPaths {
 		expected_paths.add(p6);
 		
 		Graph g = new Graph();
-		g.setStartActivity("A");
+		//g.setStartActivity("A");
 		g.setStopActivity("H");
 		
 		g.addEdge("A", "B");

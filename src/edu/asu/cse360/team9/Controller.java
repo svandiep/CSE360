@@ -20,6 +20,7 @@ public class Controller {
 		// First, create a Graph, and identify start node
 		graph = new Graph();
 		durations = new HashMap<String, Integer>();
+		durations.put(Graph.START_ACTIVITY, 0);
 		for(Record r : records)
 		{
 			durations.put(r.getActivity(), r.getDuration());
@@ -31,10 +32,11 @@ public class Controller {
 		{			
 			for(String s : r.getDependencies())
 			{
-				// This is our start node:
+				// This is a start node:
 				if(s.isEmpty())
 				{
-					graph.setStartActivity(r.getActivity());
+					graph.addEdge(Graph.START_ACTIVITY, r.getActivity());
+					//graph.setStartActivity(r.getActivity());
 					continue;
 				}
 				
@@ -46,7 +48,7 @@ public class Controller {
 		// For all activities' keys, if it doesn't exist in dependents, it's final.
 		for(String s : durations.keySet())
 		{
-			if(!dependents.contains(s))
+			if(!s.equals(Graph.START_ACTIVITY) && !dependents.contains(s))
 			{
 				graph.setStopActivity(s);
 			}

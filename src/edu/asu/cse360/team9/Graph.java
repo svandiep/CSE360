@@ -11,7 +11,7 @@ public class Graph {
 
 	private ArrayList<String> edges;
 	private HashMap<String, LinkedList<Edge>> adjList;
-	private String startActivity = "";
+	public static final String START_ACTIVITY = "__START__";
 	private String stopActivity = "";
 	
 	private class Edge
@@ -74,7 +74,7 @@ public class Graph {
 		        System.out.println();
 		 }
 		 
-		 System.out.println("Start: " + startActivity);
+		 //System.out.println("Start: " + startActivity);
 		 System.out.println("Stop:  " + stopActivity);
 	}
 	
@@ -87,11 +87,13 @@ public class Graph {
 			visited.put(s, false);
 		}
 		ArrayList<String> path = new ArrayList<>();
-		path.add(startActivity);
+		//path.add(startActivity);
+		path.add(START_ACTIVITY);
 		
 		List<List<String>> paths = new ArrayList<List<String>>();
-		DFS(paths, startActivity, visited, path);
-		
+		//DFS(paths, startActivity, visited, path);
+		DFS(paths, START_ACTIVITY, visited, path);
+				
 		if(durations != null)
 		{
 			for(List<String> list : paths)
@@ -136,6 +138,7 @@ public class Graph {
 		visited.put(current, false);
 	}
 	
+	/*
 	public void setStartActivity(String startActivity)
 	{
 		if(this.startActivity.isEmpty())
@@ -143,7 +146,7 @@ public class Graph {
 		else
 			throw new IllegalArgumentException("Start activity was previously configured");
 	}
-	
+	*/
 	public void setStopActivity(String stopActivity)
 	{
 		if(this.stopActivity.isEmpty())

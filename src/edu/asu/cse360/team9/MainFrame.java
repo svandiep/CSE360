@@ -52,8 +52,10 @@ public class MainFrame {
 		// Don't want user calculating when there's nothing there,
 		// and an edit will create a new row, so a valid graph will
 		// have at least a row count of 2.
-		if(model.getRowCount() == 1)
-			return;
+		
+		
+		//if(model.getRowCount() == 1)
+		//	return;
 
 		
 		// We will build the list of records from the table data on the form,
@@ -85,13 +87,18 @@ public class MainFrame {
 				duration = Integer.parseInt(model.getValueAt(idx, 2).toString());
 			}
 			catch(NumberFormatException nfe) {
-				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + idx+1);
+				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx+1) );
 				return;
 			}
 			
 			// With properly parsed data, we construct a Record object to be
 			// used in calculations.
 			records.add(new Record(activity, duration, dependency));
+		}
+		
+		if(records.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please provide a network configuration.");
+			return;
 		}
 		
 		ArrayList<Result> results = new ArrayList<>();
@@ -103,8 +110,14 @@ public class MainFrame {
 			Paths pathFrame = new Paths(results);
 			pathFrame.setVisible(true);
 		}
+		catch(IllegalArgumentException ex) { 
+			JOptionPane.showMessageDialog(null, "Multiple final activities have been detected.");
+			return;
+		}
 		// TODO: Handle exceptions better. This is too general.
 		catch(Exception ex) {
+			System.out.println("General exception: ");
+			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, ex.getMessage());
 		}
 	}
@@ -171,9 +184,7 @@ public class MainFrame {
 		model.addTableModelListener(new TableModelListener() {
 			  @Override
 			  public void tableChanged(TableModelEvent e) {
-			    if (e.getType() == TableModelEvent.UPDATE && (e.getLastRow() + 1) == model.getRowCount()) {
-			    	System.out.println("tableChanged()");
-			    	
+			    if (e.getType() == TableModelEvent.UPDATE && (e.getLastRow() + 1) == model.getRowCount()) {			    	
 			    	model.addRow(new Object[] { "", "", ""});
 			    }
 			  }

@@ -531,4 +531,69 @@ class TestGraphPaths {
 			assertTrue( actual.contains(expected_paths.get(i)) );
 		}
 	}
+	
+	@Test
+	void testPath08() {
+		/*
+		 	 1
+		 	[A] --+
+		          |
+		 	 2    |     4
+		 	[B] --+--- [D]
+		 	      |
+		 	 3    |
+		 	[C] --+
+		 
+		 
+		 Paths = 	A, D : 5
+		 			B, D : 6
+		 			C, D : 7
+		 */
+		
+		ArrayList<Result> expected_paths = new ArrayList<>();
+		Result p1 = new Result();
+		p1.addPathActivity("A", 1);
+		p1.addPathActivity("D", 4);
+		expected_paths.add(p1);
+		
+		Result p2 = new Result();
+		p2.addPathActivity("B", 2);
+		p2.addPathActivity("D", 4);
+		expected_paths.add(p2);
+		
+		Result p3 = new Result();
+		p3.addPathActivity("C", 3);
+		p3.addPathActivity("D", 4);
+		expected_paths.add(p3);
+		
+		Graph g = new Graph();
+		g.setStopActivity("D");
+		
+		g.addEdge(Graph.START_ACTIVITY, "A");
+		g.addEdge(Graph.START_ACTIVITY, "B");
+		g.addEdge(Graph.START_ACTIVITY, "C");
+		
+		g.addEdge("A", "D");
+		g.addEdge("B", "D");
+		g.addEdge("C", "D");
+		
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put(Graph.START_ACTIVITY, 0);
+				put("A", 1);
+				put("B", 2);
+				put("C", 3);
+				put("D", 4);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
+		
+		assertTrue(expected_paths.size() == actual.size());
+		
+		for(int i = 0; i < expected_paths.size(); i++)
+		{
+			assertTrue( actual.contains(expected_paths.get(i)) );
+		}
+		
+	}
 }

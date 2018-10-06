@@ -128,6 +128,7 @@ public class MainFrame {
 
 	private void initialize() {
 		frmNetworkPathAnalyzer = new JFrame();
+		frmNetworkPathAnalyzer.setResizable(false);
 		frmNetworkPathAnalyzer.setTitle("Network Path Analyzer");
 		frmNetworkPathAnalyzer.setBounds(100, 100, 800, 459);
 		frmNetworkPathAnalyzer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -139,7 +140,7 @@ public class MainFrame {
 				calculate();
 			}
 		});
-		btnNewButton.setBounds(449, 329, 97, 25);
+		btnNewButton.setBounds(642, 329, 97, 25);
 		frmNetworkPathAnalyzer.getContentPane().add(btnNewButton);
 		
 		JButton btnClear = new JButton("Clear");
@@ -149,7 +150,7 @@ public class MainFrame {
 				model.addRow(new Object[] { "", "", ""});
 			}
 		});
-		btnClear.setBounds(340, 329, 97, 25);
+		btnClear.setBounds(531, 329, 97, 25);
 		frmNetworkPathAnalyzer.getContentPane().add(btnClear);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -220,7 +221,7 @@ public class MainFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(frmNetworkPathAnalyzer, "Network Path Analyzer, v1.0\r\n" + 
 						"Brandon Dressman, Scott VanDiepenbos and Michael Sneberger\r\n" + 
-						"Copyright 2018");
+						"Copyright 2018","About", 1);
 			}
 		});
 		mnHelp.add(mntmAbout);

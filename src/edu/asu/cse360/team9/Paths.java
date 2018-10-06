@@ -37,6 +37,7 @@ public class Paths extends JDialog {
 	}
 
 	public Paths(ArrayList<Result> results) {
+		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setTitle("Path Analysis");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

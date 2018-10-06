@@ -17,9 +17,9 @@ class TestGraphCycles {
 		  
 		 */
 		Graph g = new Graph();
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		g.addEdge("B", "A");
-		//g.setStartActivity("A");
 		g.setStopActivity("B");
 		
 		assertThrows(IllegalStateException.class, () -> {
@@ -37,10 +37,11 @@ class TestGraphCycles {
 		 	Extended idea of test 01.
 		 */
 		Graph g = new Graph();
+		
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		g.addEdge("B", "C");
 		g.addEdge("C", "B");
-		//g.setStartActivity("A");
 		g.setStopActivity("C");
 		
 		assertThrows(IllegalStateException.class, () -> {
@@ -60,10 +61,10 @@ class TestGraphCycles {
 		 */
 		
 		Graph g = new Graph();
+		g.addEdge(Graph.START_ACTIVITY, "A");
 		g.addEdge("A", "B");
 		g.addEdge("B", "C");
 		g.addEdge("C", "A");
-		//g.setStartActivity("A");
 		g.setStopActivity("C");
 		
 		assertThrows(IllegalStateException.class, () -> {

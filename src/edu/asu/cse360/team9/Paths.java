@@ -13,6 +13,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -24,7 +25,7 @@ import java.util.*;
  *
  * Table is read-only.
  */
-public class Paths extends JFrame {
+public class Paths extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
@@ -36,9 +37,9 @@ public class Paths extends JFrame {
 	}
 
 	public Paths(ArrayList<Result> results) {
-		
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setTitle("Path Analysis");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 335);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

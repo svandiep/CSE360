@@ -71,4 +71,34 @@ class TestGraphCycles {
 			g.getPaths(null); // we don't care about results here.
 	    });
 	}
+	
+	@Test
+	void testCycle04() {
+		/*
+		      	  	    			      	  4
+		  		    				+---> [Foxtrot] --+
+		  		  		   5	    |         ^       |
+		[Alpha]---+---> [Delta] ----+         |  	  |        6
+		      	  |        ^               	  |		  +----> [Gulf]
+		          |		   +---------------<--+
+		          |         	       		  |
+		          |			8	     		  |
+		          +---> [Epsilon] --------->--+	                      
+
+	 */
+		
+		Graph g = new Graph();
+		g.addEdge(Graph.START_ACTIVITY, "Alpha");
+		g.addEdge("Alpha", "Delta");
+		g.addEdge("Alpha", "Epsilon");
+		g.addEdge("Delta", "Foxtrot");
+		g.addEdge("Epsilon", "Foxtrot");
+		g.addEdge("Epsilon", "Delta");
+		g.addEdge("Foxtrot", "Gulf");
+		g.setStopActivity("Gulf");
+		
+		assertThrows(IllegalStateException.class, () -> {
+			g.getPaths(null); // we don't care about results here.
+	    });
+	}
 }

@@ -596,4 +596,172 @@ class TestGraphPaths {
 		}
 		
 	}
+	
+	@Test
+	void testPath09() {
+		/*
+	       2       	 	    3
+		[Alpha]   +---> [Charlie] --+
+		 |    	  |  	    		|	      4
+		 |		  |  				+---> [Foxtrot] --+
+		 |		  |		   5	    |                 |
+		 +-------->---> [Delta] ----+         		  |        6
+		 |   	  |                       			  +----> [Gulf] ---+
+		 | 2      |		    8				  		  |			       |         1
+		[Bravo]   +---> [Epsilon] --------------------+                +----> [India]
+		                            	  			  |			7  	   |
+		                           	  				  +----> [Hotel] --+                      
+
+		Path = 	1)  Alpha, Delta, Foxtrot, Hotel, India		: 19
+				2)  Bravo, Delta, Foxtrot, Hotel, India		: 19
+				3)  Alpha, Epsilon, Hotel, India			: 18
+				4)  Bravo, Epsilon, Hotel, India			: 18
+				5)  Alpha, Delta, Foxtrot, Gulf, India		: 18
+				6)  Bravo, Delta, Foxtrot, Gulf, India		: 18
+				7)  Alpha, Charlie, Foxtrot, Hotel, India	: 17
+				8)  Bravo, Charlie, Foxtrot, Hotel, India	: 17
+				9)  Alpha, Epsilon, Gulf India				: 17
+				10) Bravo, Epsilon, Gulf India				: 17
+				11) Alpha, Charlie, Foxtrot, Gulf, India	: 16
+				12) Bravo, Charlie, Foxtrot, Gulf, India	: 16
+	 */
+		
+		ArrayList<Result> expected_paths = new ArrayList<>();
+		
+		Result p1 = new Result();
+		p1.addPathActivity("Alpha", 2);
+		p1.addPathActivity("Delta", 5);
+		p1.addPathActivity("Foxtrot", 4);
+		p1.addPathActivity("Hotel", 7);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p1);
+		
+		Result p2 = new Result();
+		p1.addPathActivity("Bravo", 2);
+		p1.addPathActivity("Delta", 5);
+		p1.addPathActivity("Foxtrot", 4);
+		p1.addPathActivity("Hotel", 7);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p2);
+		
+		Result p3 = new Result();
+		p1.addPathActivity("Alpha", 2);
+		p1.addPathActivity("Epsilon", 8);
+		p1.addPathActivity("Hotel", 7);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p3);
+		
+		Result p4 = new Result();
+		p1.addPathActivity("Bravo", 2);
+		p1.addPathActivity("Epsilon", 8);
+		p1.addPathActivity("Hotel", 7);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p4);
+		
+		Result p5 = new Result();
+		p1.addPathActivity("Alpha", 2);
+		p1.addPathActivity("Delta", 5);
+		p1.addPathActivity("Foxtrot", 4);
+		p1.addPathActivity("Gulf", 6);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p5);
+		
+		Result p6 = new Result();
+		p1.addPathActivity("Bravo", 2);
+		p1.addPathActivity("Delta", 5);
+		p1.addPathActivity("Foxtrot", 4);
+		p1.addPathActivity("Gulf", 6);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p6);
+		
+		Result p7 = new Result();
+		p1.addPathActivity("Alpha", 2);
+		p1.addPathActivity("Charlie", 3);
+		p1.addPathActivity("Foxtrot", 4);
+		p1.addPathActivity("Hotel", 7);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p7);
+		
+		Result p8 = new Result();
+		p1.addPathActivity("Bravo", 2);
+		p1.addPathActivity("Charlie", 3);
+		p1.addPathActivity("Foxtrot", 4);
+		p1.addPathActivity("Hotel", 7);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p8);
+		
+		Result p9 = new Result();
+		p1.addPathActivity("Alpha", 2);
+		p1.addPathActivity("Epsilon", 8);
+		p1.addPathActivity("Gulf", 6);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p9);
+		
+		Result p10 = new Result();
+		p1.addPathActivity("Bravo", 2);
+		p1.addPathActivity("Epsilon", 8);
+		p1.addPathActivity("Gulf", 6);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p10);
+		
+		Result p11 = new Result();
+		p1.addPathActivity("Alpha", 2);
+		p1.addPathActivity("Charlie", 3);
+		p1.addPathActivity("Foxtrot", 4);
+		p1.addPathActivity("Gulf", 6);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p11);
+		
+		Result p12 = new Result();
+		p1.addPathActivity("Bravo", 2);
+		p1.addPathActivity("Charlie", 3);
+		p1.addPathActivity("Foxtrot", 4);
+		p1.addPathActivity("Gulf", 6);
+		p1.addPathActivity("India", 1);
+		expected_paths.add(p12);
+		
+		Graph g = new Graph();
+		g.setStopActivity("India");
+		
+		g.addEdge(Graph.START_ACTIVITY, "Alpha");
+		g.addEdge(Graph.START_ACTIVITY, "Bravo");
+		
+		g.addEdge("Alpha", "Charlie");
+		g.addEdge("Alpha", "Delta");
+		g.addEdge("Alpha", "Epsilon");
+		g.addEdge("Bravo", "Charlie");
+		g.addEdge("Bravo", "Delta");
+		g.addEdge("Bravo", "Epsilon");
+		g.addEdge("Charlie", "Foxtrot");
+		g.addEdge("Delta", "Foxtrot");
+		g.addEdge("Foxtrot", "Gulf");
+		g.addEdge("Foxtrot", "Hotel");
+		g.addEdge("Epsilon", "Gulf");
+		g.addEdge("Epsilon", "Hotel");
+		g.addEdge("Gulf", "India");
+		g.addEdge("Hotel", "India");
+		
+		HashMap<String, Integer> durations = new HashMap<String, Integer>() {
+			{ 
+				put(Graph.START_ACTIVITY, 0);
+				put("Alpha", 2);
+				put("Bravo", 2);
+				put("Charlie", 3);
+				put("Delta", 5);
+				put("Epsilon", 8);
+				put("Foxtrot", 4);
+				put("Gulf", 6);
+				put("Hotel", 7);
+				put("India", 1);
+			}
+		};
+		ArrayList<Result> actual = g.getPaths(durations);
+		
+		assertTrue(expected_paths.size() == actual.size());
+		
+		for(int i = 0; i < expected_paths.size(); i++)
+		{
+			assertTrue( actual.contains(expected_paths.get(i)) );
+		}
+	}
 }

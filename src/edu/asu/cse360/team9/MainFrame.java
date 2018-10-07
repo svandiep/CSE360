@@ -88,7 +88,7 @@ public class MainFrame {
 				duration = Integer.parseInt(model.getValueAt(idx, 2).toString());
 			}
 			catch(NumberFormatException nfe) {
-				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx+1) );
+				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx+1) , "Error", 1);
 				return;
 			}
 			
@@ -96,9 +96,14 @@ public class MainFrame {
 			//Throws error if dependency is not found in activity array
 			arr.add("");
 			arr.add(activity);
-			if(!arr.contains(dependency)) {
-				JOptionPane.showMessageDialog(null, "Dependency at row " + (idx+1) + " not an activity");
-				return;
+			String[] dependencies = dependency.split(",");
+
+			for(String d : dependencies) {
+				
+				if(!arr.contains(d)) {
+					JOptionPane.showMessageDialog(null, "Dependency \"" + d + "\" at row " + (idx+1) + " is not an activity.", "Error", 1);
+					return;
+				}
 			}
 			
 			// With properly parsed data, we construct a Record object to be
@@ -107,7 +112,7 @@ public class MainFrame {
 		}
 		
 		if(records.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Please provide a network configuration.");
+			JOptionPane.showMessageDialog(null, "Please provide a network configuration.", "Error", 1);
 			return;
 		}
 		
@@ -122,7 +127,7 @@ public class MainFrame {
 			pathFrame.setVisible(true);
 		}
 		catch(IllegalArgumentException ex) { 
-			JOptionPane.showMessageDialog(null, "Multiple final activities have been detected.");
+			JOptionPane.showMessageDialog(null, "Multiple final activities have been detected.", "Error", 1);
 			return;
 		}
 		// TODO: Handle exceptions better. This is too general.

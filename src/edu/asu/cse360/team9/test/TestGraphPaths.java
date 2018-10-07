@@ -637,87 +637,87 @@ class TestGraphPaths {
 		expected_paths.add(p1);
 		
 		Result p2 = new Result();
-		p1.addPathActivity("Bravo", 2);
-		p1.addPathActivity("Delta", 5);
-		p1.addPathActivity("Foxtrot", 4);
-		p1.addPathActivity("Hotel", 7);
-		p1.addPathActivity("India", 1);
+		p2.addPathActivity("Bravo", 2);
+		p2.addPathActivity("Delta", 5);
+		p2.addPathActivity("Foxtrot", 4);
+		p2.addPathActivity("Hotel", 7);
+		p2.addPathActivity("India", 1);
 		expected_paths.add(p2);
 		
 		Result p3 = new Result();
-		p1.addPathActivity("Alpha", 2);
-		p1.addPathActivity("Epsilon", 8);
-		p1.addPathActivity("Hotel", 7);
-		p1.addPathActivity("India", 1);
+		p3.addPathActivity("Alpha", 2);
+		p3.addPathActivity("Epsilon", 8);
+		p3.addPathActivity("Hotel", 7);
+		p3.addPathActivity("India", 1);
 		expected_paths.add(p3);
 		
 		Result p4 = new Result();
-		p1.addPathActivity("Bravo", 2);
-		p1.addPathActivity("Epsilon", 8);
-		p1.addPathActivity("Hotel", 7);
-		p1.addPathActivity("India", 1);
+		p4.addPathActivity("Bravo", 2);
+		p4.addPathActivity("Epsilon", 8);
+		p4.addPathActivity("Hotel", 7);
+		p4.addPathActivity("India", 1);
 		expected_paths.add(p4);
 		
 		Result p5 = new Result();
-		p1.addPathActivity("Alpha", 2);
-		p1.addPathActivity("Delta", 5);
-		p1.addPathActivity("Foxtrot", 4);
-		p1.addPathActivity("Gulf", 6);
-		p1.addPathActivity("India", 1);
+		p5.addPathActivity("Alpha", 2);
+		p5.addPathActivity("Delta", 5);
+		p5.addPathActivity("Foxtrot", 4);
+		p5.addPathActivity("Gulf", 6);
+		p5.addPathActivity("India", 1);
 		expected_paths.add(p5);
 		
 		Result p6 = new Result();
-		p1.addPathActivity("Bravo", 2);
-		p1.addPathActivity("Delta", 5);
-		p1.addPathActivity("Foxtrot", 4);
-		p1.addPathActivity("Gulf", 6);
-		p1.addPathActivity("India", 1);
+		p6.addPathActivity("Bravo", 2);
+		p6.addPathActivity("Delta", 5);
+		p6.addPathActivity("Foxtrot", 4);
+		p6.addPathActivity("Gulf", 6);
+		p6.addPathActivity("India", 1);
 		expected_paths.add(p6);
 		
 		Result p7 = new Result();
-		p1.addPathActivity("Alpha", 2);
-		p1.addPathActivity("Charlie", 3);
-		p1.addPathActivity("Foxtrot", 4);
-		p1.addPathActivity("Hotel", 7);
-		p1.addPathActivity("India", 1);
+		p7.addPathActivity("Alpha", 2);
+		p7.addPathActivity("Charlie", 3);
+		p7.addPathActivity("Foxtrot", 4);
+		p7.addPathActivity("Hotel", 7);
+		p7.addPathActivity("India", 1);
 		expected_paths.add(p7);
 		
 		Result p8 = new Result();
-		p1.addPathActivity("Bravo", 2);
-		p1.addPathActivity("Charlie", 3);
-		p1.addPathActivity("Foxtrot", 4);
-		p1.addPathActivity("Hotel", 7);
-		p1.addPathActivity("India", 1);
+		p8.addPathActivity("Bravo", 2);
+		p8.addPathActivity("Charlie", 3);
+		p8.addPathActivity("Foxtrot", 4);
+		p8.addPathActivity("Hotel", 7);
+		p8.addPathActivity("India", 1);
 		expected_paths.add(p8);
 		
 		Result p9 = new Result();
-		p1.addPathActivity("Alpha", 2);
-		p1.addPathActivity("Epsilon", 8);
-		p1.addPathActivity("Gulf", 6);
-		p1.addPathActivity("India", 1);
+		p9.addPathActivity("Alpha", 2);
+		p9.addPathActivity("Epsilon", 8);
+		p9.addPathActivity("Gulf", 6);
+		p9.addPathActivity("India", 1);
 		expected_paths.add(p9);
 		
 		Result p10 = new Result();
-		p1.addPathActivity("Bravo", 2);
-		p1.addPathActivity("Epsilon", 8);
-		p1.addPathActivity("Gulf", 6);
-		p1.addPathActivity("India", 1);
+		p10.addPathActivity("Bravo", 2);
+		p10.addPathActivity("Epsilon", 8);
+		p10.addPathActivity("Gulf", 6);
+		p10.addPathActivity("India", 1);
 		expected_paths.add(p10);
 		
 		Result p11 = new Result();
-		p1.addPathActivity("Alpha", 2);
-		p1.addPathActivity("Charlie", 3);
-		p1.addPathActivity("Foxtrot", 4);
-		p1.addPathActivity("Gulf", 6);
-		p1.addPathActivity("India", 1);
+		p11.addPathActivity("Alpha", 2);
+		p11.addPathActivity("Charlie", 3);
+		p11.addPathActivity("Foxtrot", 4);
+		p11.addPathActivity("Gulf", 6);
+		p11.addPathActivity("India", 1);
 		expected_paths.add(p11);
 		
 		Result p12 = new Result();
-		p1.addPathActivity("Bravo", 2);
-		p1.addPathActivity("Charlie", 3);
-		p1.addPathActivity("Foxtrot", 4);
-		p1.addPathActivity("Gulf", 6);
-		p1.addPathActivity("India", 1);
+		p12.addPathActivity("Bravo", 2);
+		p12.addPathActivity("Charlie", 3);
+		p12.addPathActivity("Foxtrot", 4);
+		p12.addPathActivity("Gulf", 6);
+		p12.addPathActivity("India", 1);
 		expected_paths.add(p12);
 		
 		Graph g = new Graph();

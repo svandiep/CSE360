@@ -39,13 +39,14 @@ public class MainFrame {
 
 	private JFrame frmNetworkPathAnalyzer;
 	private JTable networkTable;
+	private ArrayList<String> arr = new ArrayList<>();
 	
 	// Data of the table:
 	private DefaultTableModel model;
 	
 	// Bridge between GUI and model of source code.
 	private Controller controller;
-
+	
 	// Performs the calculation of a given collection of rows, along
 	// with error handling.
 	private void calculate() {
@@ -91,6 +92,15 @@ public class MainFrame {
 				return;
 			}
 			
+			//Check if dependency is an activity
+			//Throws error if dependency is not found in activity array
+			arr.add("");
+			arr.add(activity);
+			if(!arr.contains(dependency)) {
+				JOptionPane.showMessageDialog(null, "Dependency at row " + (idx+1) + " not an activity");
+				return;
+			}
+			
 			// With properly parsed data, we construct a Record object to be
 			// used in calculations.
 			records.add(new Record(activity, duration, dependency));
@@ -108,6 +118,7 @@ public class MainFrame {
 			
 			// Our results table:
 			Paths pathFrame = new Paths(results);
+			pathFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);
 			pathFrame.setVisible(true);
 		}
 		catch(IllegalArgumentException ex) { 

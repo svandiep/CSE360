@@ -18,6 +18,7 @@ import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.util.*;
+import java.awt.Point;
 
 /***
  * Displays the results of successful calculation as a table of

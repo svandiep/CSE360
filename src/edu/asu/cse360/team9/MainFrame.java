@@ -1,4 +1,5 @@
 package edu.asu.cse360.team9;
+import java.awt.Desktop;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,7 +9,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
-import java.awt.TextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuItem;
@@ -46,6 +46,7 @@ public class MainFrame {
 	
 	// Bridge between GUI and model of source code.
 	private Controller controller;
+	
 	
 	// Performs the calculation of a given collection of rows, along
 	// with error handling.
@@ -241,6 +242,17 @@ public class MainFrame {
 		menuBar.add(mnHelp);
 		
 		JMenuItem mntmUserGuide = new JMenuItem("User Guide");
+		mntmUserGuide.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Desktop.getDesktop().open(new java.io.File("Resources/TeamProjectPhase1v2.0.pdf"));
+				}
+				catch (Exception e){
+					JOptionPane.showMessageDialog(null, "Resource not available", "Error", 1);
+					return;
+				}
+			}
+		});
 		mnHelp.add(mntmUserGuide);
 		
 		JMenuItem mntmAbout = new JMenuItem("About");

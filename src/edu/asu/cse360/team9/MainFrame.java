@@ -70,15 +70,15 @@ public class MainFrame {
 		
 		// We require that dependencies exist as activities, so first step is to load
 		// all activities into a list.
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("");
+		ArrayList<String> activities = new ArrayList<>();
+		activities.add("");
 		for(int idx = 0; idx < model.getRowCount(); idx++) {
 			// We skip rows that don't have an activity.
 			if(model.getValueAt(idx, 0).toString().isEmpty())
 				continue;
 			
 			activity = model.getValueAt(idx, 0).toString();
-			arr.add(activity);
+			activities.add(activity);
 		}
 		
 		
@@ -106,7 +106,7 @@ public class MainFrame {
 
 			for(String d : dependencies) {
 				
-				if(!arr.contains(d)) {
+				if(!activities.contains(d)) {
 					JOptionPane.showMessageDialog(null, "Dependency \"" + d + "\" at row " + (idx+1) + " is not an activity.", "Error", 1);
 					return;
 				}

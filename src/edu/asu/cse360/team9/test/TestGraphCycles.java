@@ -97,8 +97,61 @@ class TestGraphCycles {
 		g.addEdge("Foxtrot", "Gulf");
 		g.setStopActivity("Gulf");
 		
+		//g.getPaths(null);
+		
 		assertThrows(IllegalStateException.class, () -> {
 			g.getPaths(null); // we don't care about results here.
 	    });
+	}
+	
+	@Test
+	void testCycle05() {
+		/*
+		 
+		 	[A] --> [B] --> [C] --> [D] --> [E]
+		             |               ^
+		             +---------------+
+		             
+		    
+		 */
+		
+		Graph g = new Graph();
+		g.addEdge(Graph.START_ACTIVITY, "A");
+		g.addEdge("A", "B");
+		g.addEdge("B", "C");
+		g.addEdge("B", "D");
+		g.addEdge("C", "D");
+		g.addEdge("D", "E");
+		g.setStopActivity("E");
+		
+		assertThrows(IllegalStateException.class, () -> {
+			g.getPaths(null); // we don't care about results here.
+	    });
+	}
+	
+	@Test
+	void testCycle06() {
+		/*
+		 
+	 		[A] --> [B] --> [C] --> [D] --> [E] --> [F]
+	             	 |               		 ^
+	             	 +-----------------------+
+	             
+	    
+		 */
+		
+		Graph g = new Graph();
+		g.addEdge(Graph.START_ACTIVITY, "A");
+		g.addEdge("A", "B");
+		g.addEdge("B", "C");
+		g.addEdge("B", "E");
+		g.addEdge("C", "D");
+		g.addEdge("D", "E");
+		g.addEdge("E", "F");
+		g.setStopActivity("F");
+		
+		assertThrows(IllegalStateException.class, () -> {
+			g.getPaths(null); // we don't care about results here.
+	    });	
 	}
 }

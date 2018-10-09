@@ -75,6 +75,19 @@ public class MainFrame {
 		String activity;
 		String dependency;
 		
+		// We require that dependencies exist as activities, so first step is to load
+		// all activities into a list.
+		arr.add("");
+		for(int idx = 0; idx < model.getRowCount(); idx++) {
+			// We skip rows that don't have an activity.
+			if(model.getValueAt(idx, 0).toString().isEmpty())
+				continue;
+			
+			activity = model.getValueAt(idx, 0).toString();
+			arr.add(activity);
+		}
+		
+		
 		// Iterate over all rows in the table:
 		for(int idx = 0; idx < model.getRowCount(); idx++)
 		{
@@ -95,8 +108,6 @@ public class MainFrame {
 			
 			//Check if dependency is an activity
 			//Throws error if dependency is not found in activity array
-			arr.add("");
-			arr.add(activity);
 			String[] dependencies = dependency.split(",");
 
 			for(String d : dependencies) {

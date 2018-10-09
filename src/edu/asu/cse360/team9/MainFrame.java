@@ -39,7 +39,7 @@ public class MainFrame {
 
 	private JFrame frmNetworkPathAnalyzer;
 	private JTable networkTable;
-	private ArrayList<String> arr = new ArrayList<>();
+	
 	
 	// Data of the table:
 	private DefaultTableModel model;
@@ -51,13 +51,6 @@ public class MainFrame {
 	// Performs the calculation of a given collection of rows, along
 	// with error handling.
 	private void calculate() {
-		// Don't want user calculating when there's nothing there,
-		// and an edit will create a new row, so a valid graph will
-		// have at least a row count of 2.
-		
-		
-		//if(model.getRowCount() == 1)
-		//	return;
 
 		
 		// We will build the list of records from the table data on the form,
@@ -77,6 +70,7 @@ public class MainFrame {
 		
 		// We require that dependencies exist as activities, so first step is to load
 		// all activities into a list.
+		ArrayList<String> arr = new ArrayList<>();
 		arr.add("");
 		for(int idx = 0; idx < model.getRowCount(); idx++) {
 			// We skip rows that don't have an activity.

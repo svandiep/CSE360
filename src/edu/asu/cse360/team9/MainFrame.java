@@ -128,7 +128,7 @@ public class MainFrame {
 			pathFrame.setVisible(true);
 		}
 		catch(IllegalArgumentException ex) { 
-			JOptionPane.showMessageDialog(null, "Multiple final activities have been detected.", "Error", 1);
+			JOptionPane.showMessageDialog(null, "Network graph is not connected.", "Error", 1);
 			return;
 		}
 		// TODO: Handle exceptions better. This is too general.

@@ -61,7 +61,7 @@ public class Controller {
 	/**
 	 * With a populated graph, this provides the calculated results
 	 *  
-	 * @return ArrayList<Result> of all results generated.
+	 * @return collection of all results generated.
 	 */
 	public ArrayList<Result> getResults()
 	{

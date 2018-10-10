@@ -86,7 +86,8 @@ public class Graph {
 	 * 
 	 * Utilizes depth-first search algorithm to perform calculation.
 	 * 
-	 * @param durations Map<String, Integer> where key is activity.
+	 * @param durations map where key is activity.
+	 * @return collection of results
 	 */
 	public ArrayList<Result> getPaths(HashMap<String, Integer> durations)
 	{

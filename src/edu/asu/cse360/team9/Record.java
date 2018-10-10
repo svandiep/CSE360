@@ -16,8 +16,8 @@ public class Record {
 	/**
 	 * Create a Record
 	 * 
-	 * @param activity
-	 * @param duration
+	 * @param activity the activity
+	 * @param duration the duration
 	 * @param dependencies as comma separated list
 	 */
 	public Record(String activity, int duration, String dependencies)
@@ -48,7 +48,7 @@ public class Record {
 	
 	/**
 	 * Get dependencies as a list
-	 * @return List<String> separated by comma.
+	 * @return collection of dependencies
 	 */
 	public List<String> getDependencies()
 	{

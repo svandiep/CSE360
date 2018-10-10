@@ -23,8 +23,8 @@ public class Result implements Comparable<Result> {
 	 * Adds an entry to the path, and increments duration by
 	 * provided duration
 	 * 
-	 * @param activity
-	 * @param duration
+	 * @param activity the activity
+	 * @param duration the duration
 	 */
 	public void addPathActivity(String activity, int duration)
 	{

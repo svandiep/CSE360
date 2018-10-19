@@ -72,28 +72,28 @@ public class MainFrame {
 		// all activities into a list.
 		ArrayList<String> activities = new ArrayList<>();
 		activities.add("");
-		for(int idx = 0; idx < model.getRowCount(); idx++) {
+		for(int idx = 0; idx < model.getRowCount() - 1; idx++) {
 			// We skip rows that don't have an activity.
 			if(model.getValueAt(idx, 0).toString().isEmpty())
 				continue;
 			
 			activity = model.getValueAt(idx, 0).toString();
-			activities.add(activity);
+			activities.add(activity.trim());
 		}
 		
 		
 		// Iterate over all rows in the table:
-		for(int idx = 0; idx < model.getRowCount(); idx++)
+		for(int idx = 0; idx < activities.size(); idx++)
 		{
+			activity = activities.get(idx);
 			// We skip rows that don't have an activity.
-			if(model.getValueAt(idx, 0).toString().isEmpty())
+			if(activity.isEmpty())
 				continue;
 			
-			activity = model.getValueAt(idx, 0).toString();
-			dependency = model.getValueAt(idx, 1).toString();
+			dependency = model.getValueAt(idx - 1, 1).toString();
 			
 			try {
-				duration = Integer.parseInt(model.getValueAt(idx, 2).toString());
+				duration = Integer.parseInt(model.getValueAt(idx - 1, 2).toString());
 			}
 			catch(NumberFormatException nfe) {
 				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx+1) , "Error", 1);
@@ -104,17 +104,17 @@ public class MainFrame {
 			//Throws error if dependency is not found in activity array
 			String[] dependencies = dependency.split(",");
 
-			for(String d : dependencies) {
-				
-				if(!activities.contains(d)) {
-					JOptionPane.showMessageDialog(null, "Dependency \"" + d + "\" at row " + (idx+1) + " is not an activity.", "Error", 1);
+			for(int i = 0; i < dependencies.length; i++) {
+				dependencies[i] = dependencies[i].trim();
+				if(!activities.contains(dependencies[i])) {
+					JOptionPane.showMessageDialog(null, "Dependency \"" + dependencies[i] + "\" at row " + (idx+1) + " is not an activity.", "Error", 1);
 					return;
 				}
 			}
 			
 			// With properly parsed data, we construct a Record object to be
 			// used in calculations.
-			records.add(new Record(activity, duration, dependency));
+			records.add(new Record(activity, duration, dependencies));
 		}
 		
 		if(records.isEmpty()) {
@@ -124,12 +124,12 @@ public class MainFrame {
 		
 		ArrayList<Result> results = new ArrayList<>();
 		try {
-			controller.populateGraph(records);
+			controller.populateGraph(records);	//graph is now built
 			results = controller.getResults();
 			
 			// Our results table:
 			Paths pathFrame = new Paths(results);
-			pathFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);
+			pathFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);	//center results frame
 			pathFrame.setVisible(true);
 		}
 		catch(IllegalArgumentException ex) { 
@@ -149,6 +149,7 @@ public class MainFrame {
 			public void run() {
 				try {
 					MainFrame window = new MainFrame();
+					window.frmNetworkPathAnalyzer.setLocationRelativeTo(null);	//center entry frame
 					window.frmNetworkPathAnalyzer.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -165,7 +166,8 @@ public class MainFrame {
 		frmNetworkPathAnalyzer = new JFrame();
 		frmNetworkPathAnalyzer.setResizable(false);
 		frmNetworkPathAnalyzer.setTitle("Network Path Analyzer");
-		frmNetworkPathAnalyzer.setBounds(100, 100, 800, 459);
+//		frmNetworkPathAnalyzer.setBounds(100, 100, 800, 459);
+		frmNetworkPathAnalyzer.setSize(800, 459);
 		frmNetworkPathAnalyzer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmNetworkPathAnalyzer.getContentPane().setLayout(null);
 		

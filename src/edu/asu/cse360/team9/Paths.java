@@ -37,7 +37,7 @@ public class Paths extends JDialog {
 	    super.dispose();
 	}
 
-	public Paths(ArrayList<Result> results) {
+	public Paths(ArrayList<Result> results) {	//info from calculation of graph
 		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setTitle("Path Analysis");
@@ -100,7 +100,7 @@ public class Paths extends JDialog {
 		//ArrayList<Result> results = controller.getResults();
 		for(Result r : results)
 		{
-			model.addRow(new Object[] { r.getPath(), r.getDuration() } );
+			model.addRow(new Object[] { r.getPath(), r.getDuration() } );	//add every result to table
 		}
 	}
 }

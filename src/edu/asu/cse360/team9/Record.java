@@ -11,7 +11,7 @@ public class Record {
 	
 	private String activity;
 	private int duration;
-	private String dependencies;
+	private String[] dependencies;
 	
 	/**
 	 * Create a Record
@@ -20,7 +20,7 @@ public class Record {
 	 * @param duration the duration
 	 * @param dependencies as comma separated list
 	 */
-	public Record(String activity, int duration, String dependencies)
+	public Record(String activity, int duration, String[] dependencies)
 	{
 		this.activity = activity;
 		this.duration = duration;
@@ -50,8 +50,8 @@ public class Record {
 	 * Get dependencies as a list
 	 * @return collection of dependencies
 	 */
-	public List<String> getDependencies()
+	public String[] getDependencies()
 	{
-		return Arrays.asList(dependencies.split(","));
+		return dependencies;	//Arrays.asList(dependencies.split(","));
 	}
 }

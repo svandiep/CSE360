@@ -27,5 +27,34 @@ public class Reporter
 	public void write()
 	{
 		// TODO: Implement writing functionality
+
+// THIS IS THE TEMPLATE. Numbers are not to be included.
+// Durations are right-justified for activities listing
+/*
+<TITLE OF REPORT>
+Created On: [Creation Date]
+
+01234567890123456789012345678901234567890123456789012345678901234567890123456789
+
+Activities:															   Durations
+[Activity.........................................]					  [duration]
+[Activity.........................................]					  [duration]
+[Activity.........................................]					  [duration]
+[Activity.........................................]					  [duration]
+[Activity.........................................]					  [duration]
+
+Paths:
+Path:     [path,path,path......................................................]
+Duration: [duration]
+
+Path:     [path,path,path......................................................]
+Duration: [duration]
+
+Path:     [path,path,path......................................................]
+Duration: [duration]
+
+Path:     [path,path,path......................................................]
+Duration: [duration]
+*/
 	}
 }

@@ -7,7 +7,7 @@ import java.util.*;
  * Activity, Duration, Path.
  * 
  */
-public class Record {
+public class Record implements Comparable<Record> {
 	
 	private String activity;
 	private int duration;
@@ -53,5 +53,14 @@ public class Record {
 	public String[] getDependencies()
 	{
 		return dependencies;	//Arrays.asList(dependencies.split(","));
+	}
+
+	/**
+	 * Allows for collection sorting, which is implemented as alphabetical by activity name.
+	 */
+	@Override
+	public int compareTo(Record other) {
+		// We want to sort alphabetically
+		return this.activity.compareTo(other.activity);
 	}
 }

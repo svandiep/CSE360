@@ -202,6 +202,15 @@ public class MainFrame {
 				new String[]  { "Activity", "Dependencies", "Duration" }
 		);
         networkTable.setModel(model);
+        
+        JButton btnNewButton_1 = new JButton("Report");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        	}
+        });
+        btnNewButton_1.setBounds(38, 329, 97, 25);
+        
+        frmNetworkPathAnalyzer.getContentPane().add(btnNewButton_1);
         networkTable.getColumnModel().getColumn(0).setPreferredWidth(100);
         networkTable.getColumnModel().getColumn(1).setPreferredWidth(400);
         networkTable.getColumnModel().getColumn(2).setPreferredWidth(15);
@@ -243,6 +252,13 @@ public class MainFrame {
 				System.exit(0); 
 			}
 		});
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Create Report");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mnFile.add(mntmNewMenuItem);
 		mnFile.add(mntmExit);
 		
 		JMenu mnHelp = new JMenu("Help");

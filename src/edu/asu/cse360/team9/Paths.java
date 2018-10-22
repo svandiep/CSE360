@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.util.*;
 import java.awt.Point;
+import javax.swing.JCheckBox;
 
 /***
  * Displays the results of successful calculation as a table of
@@ -78,6 +79,20 @@ public class Paths extends JDialog {
 				return columnEditables[column];
 			}
 		});
+		
+		JCheckBox chckbxNewCheckBox = new JCheckBox("Show Critical Path");
+		chckbxNewCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(chckbxNewCheckBox.isSelected()) {
+					
+				}
+				else {
+					
+				}
+			}
+		});
+		chckbxNewCheckBox.setBounds(23, 238, 133, 25);
+		contentPane.add(chckbxNewCheckBox);
 		model = (DefaultTableModel) table.getModel();
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(350);

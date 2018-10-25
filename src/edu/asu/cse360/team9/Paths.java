@@ -32,6 +32,7 @@ public class Paths extends JDialog {
 	private JPanel contentPane;
 	private JTable table;
 	private DefaultTableModel model;
+	private DefaultTableModel criticalModel;
 	private JScrollPane scrollPane;
 
 	public void CloseFrame(){
@@ -48,6 +49,11 @@ public class Paths extends JDialog {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		criticalModel = new DefaultTableModel(
+				null,				// Do not want any rows initially for this table.
+				new String[] {
+						"Path", "Duration"
+					});
 		
 		JButton btnClose = new JButton("Close");
 		btnClose.addActionListener(new ActionListener() {
@@ -83,12 +89,20 @@ public class Paths extends JDialog {
 		JCheckBox chckbxNewCheckBox = new JCheckBox("Show Critical Path");
 		chckbxNewCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				// Upon toggle of critical path checkbox, we swap out the table
+				// model, and then reset the dimension configuration originally
+				// applied.
 				if(chckbxNewCheckBox.isSelected()) {
-					
+					table.setModel(criticalModel);
 				}
 				else {
-					
+					table.setModel(model);
 				}
+				table.getColumnModel().getColumn(0).setPreferredWidth(350);
+				table.getColumnModel().getColumn(1).setPreferredWidth(15);
+				table.getColumnModel().getColumn(1).setMinWidth(10);
+				table.getColumnModel().getColumn(1).setMaxWidth(2147483644);
 			}
 		});
 		chckbxNewCheckBox.setBounds(23, 238, 133, 25);
@@ -111,11 +125,23 @@ public class Paths extends JDialog {
 			});
 		
 		// We will use the populated data to fill the table
-		// Currently using dummy data for showing example.
 		//ArrayList<Result> results = controller.getResults();
 		for(Result r : results)
 		{
 			model.addRow(new Object[] { r.getPath(), r.getDuration() } );	//add every result to table
+		}
+		
+		// Since we get duration on a Result, we need to ensure it's not null,
+		// so we check if there's records first.
+		if(results.size() > 0)
+		{
+			int maxDur = results.get(0).getDuration();
+			for(Result r : results)
+			{
+				// Only if a record shares the max duration do we add it.
+				if(r.getDuration() == maxDur)
+					criticalModel.addRow(new Object[] { r.getPath(), r.getDuration() });
+			}
 		}
 	}
 }

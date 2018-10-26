@@ -32,7 +32,7 @@ public class Result implements Comparable<Result> {
 			return;
 		
 		path.add(activity);
-		this.duration += duration;
+		this.duration += duration; 
 	}
 	
 	/**

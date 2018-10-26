@@ -96,7 +96,7 @@ public class MainFrame {
 				duration = Integer.parseInt(model.getValueAt(idx - 1, 2).toString());
 			}
 			catch(NumberFormatException nfe) {
-				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx+1) , "Error", 1);
+				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx) , "Error", 1);
 				return;
 			}
 			
@@ -107,7 +107,7 @@ public class MainFrame {
 			for(int i = 0; i < dependencies.length; i++) {
 				dependencies[i] = dependencies[i].trim();
 				if(!activities.contains(dependencies[i])) {
-					JOptionPane.showMessageDialog(null, "Dependency \"" + dependencies[i] + "\" at row " + (idx+1) + " is not an activity.", "Error", 1);
+					JOptionPane.showMessageDialog(null, "Dependency \"" + dependencies[i] + "\" at row " + (idx) + " is not an activity.", "Error", 1);
 					return;
 				}
 			}
@@ -268,7 +268,7 @@ public class MainFrame {
 		mntmUserGuide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Desktop.getDesktop().open(new java.io.File("Resources/TeamProjectPhase1v2.0.pdf"));
+					Desktop.getDesktop().open(new java.io.File("Resources/TeamProjectPhase2UserGuidev1.0.pdf"));
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null, "Resource not available", "Error", 1);

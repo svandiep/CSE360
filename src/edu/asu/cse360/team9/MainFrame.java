@@ -206,6 +206,9 @@ public class MainFrame {
         JButton btnNewButton_1 = new JButton("Report");
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
+        		Report reportFrame = new Report();
+    			reportFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);	//center results frame
+    			reportFrame.setVisible(true);
         	}
         });
         btnNewButton_1.setBounds(38, 329, 97, 25);

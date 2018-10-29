@@ -17,7 +17,11 @@ import javax.swing.JTextField;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -31,30 +35,35 @@ public class Report extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
-	private JTextField textField_1;
+	public JTextField textField_1;
 	public JButton btnNewButton;
 	
+
+	OutputStream out = new OutputStream() {
+        @Override
+        public void write(int b) throws IOException {
+        }
+    };
+
+    class JTextFieldPrintStream extends PrintStream {
+        public JTextFieldPrintStream(OutputStream out) {
+            super(out);
+        }
+        @Override
+        public void println(String x) {
+        	textField_1.setText(x);
+        }
+    };
+    
 	protected void saveToFile() {
-	    JFileChooser fileChooser = new JFileChooser();
-	    FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-	    fileChooser.setFileFilter(filter);
-	    int retval = fileChooser.showSaveDialog(btnNewButton);
-	    if (retval == JFileChooser.APPROVE_OPTION) {
-	      File file = fileChooser.getSelectedFile();
-	      if (file == null) {
-	        return;
-	      }
-	      if (!file.getName().toLowerCase().endsWith(".txt")) {
-	        file = new File(file.getParentFile(), file.getName() + ".txt");
-	      }
-	      try {
-	    	  textField.write(new OutputStreamWriter(new FileOutputStream(file),
-	            "utf-8"));
-	        Desktop.getDesktop().open(file);
-	      } catch (Exception e) {
-	        e.printStackTrace();
-	      }
-	    }
+	    JFileChooser chooser = new JFileChooser();
+	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    chooser.showSaveDialog(null);
+        File f = chooser.getSelectedFile();
+        String filename = f.getAbsolutePath();
+        JTextFieldPrintStream print = new JTextFieldPrintStream(out);
+        System.setOut(print);
+        System.out.println(filename);
 	  }
 	/**
 	 *  Close the Dialog 
@@ -90,6 +99,7 @@ public class Report extends JDialog {
 		contentPanel.add(lblNewLabel_1);
 		
 		textField_1 = new JTextField();
+		textField_1.setEditable(false);
 		textField_1.setBounds(131, 109, 192, 22);
 		contentPanel.add(textField_1);
 		textField_1.setColumns(10);
@@ -107,12 +117,12 @@ public class Report extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Run Report");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 					}
 				});
-				okButton.setActionCommand("OK");
+				okButton.setActionCommand("Run Report");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}

@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dialog.ModalityType;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Desktop;
 import java.io.File;
@@ -22,6 +23,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -39,6 +43,10 @@ public class Report extends JDialog {
 	public JTextField textField_1;
 	public JButton btnNewButton;
 	
+	private ArrayList<Record> records;
+	private ArrayList<Result> results;
+	private String filename = "";
+	private String title = "";
 
 	OutputStream out = new OutputStream() {
         @Override
@@ -68,9 +76,11 @@ public class Report extends JDialog {
 
 		int returnValue = jfc.showSaveDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			String filename = jfc.getSelectedFile().toString();
-			   if (!filename .endsWith(".txt"))// append .txt if filename does not have it
-			        filename += ".txt";
+			filename = jfc.getSelectedFile().toString();
+			   
+			if (!filename .endsWith(".txt"))// append .txt if filename does not have it
+				filename += ".txt";
+			
 			JTextFieldPrintStream print = new JTextFieldPrintStream(out);
 	        System.setOut(print);
 			System.out.println(filename);
@@ -82,6 +92,32 @@ public class Report extends JDialog {
 	public void CloseFrame(){
 	    super.dispose();
 	}
+	
+	private boolean createReport()
+	{
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		LocalDateTime createdOn = LocalDateTime.now();
+		
+		Reporter reporter = new Reporter(records, results, filename, title, createdOn.format(dtf));
+		try
+		{
+			reporter.write();
+		}
+		catch(IOException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 1);
+			return false;
+		}
+		return true;
+	}
+	
+	public Report(ArrayList<Record> records, ArrayList<Result> results) {
+		this();
+		
+		this.records = records;
+		this.results = results;
+	}
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -131,6 +167,12 @@ public class Report extends JDialog {
 				JButton okButton = new JButton("Run Report");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						boolean success = createReport();
+						if(success)
+						{
+							JOptionPane.showMessageDialog(null, "Your report has been created.", "Report Saved", 1);
+							CloseFrame();
+						}
 					}
 				});
 				okButton.setActionCommand("Run Report");

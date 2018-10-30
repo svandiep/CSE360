@@ -27,7 +27,7 @@ public class Reporter
 		this.results = results;
 	}
 	
-	public void write()
+	public void write() throws IOException
 	{
 		String newline = System.getProperty( "line.separator" );
 		String divider = "";
@@ -66,7 +66,8 @@ public class Reporter
 			w.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new IOException(e);
+			//e.printStackTrace();
 		}
 	}
 	

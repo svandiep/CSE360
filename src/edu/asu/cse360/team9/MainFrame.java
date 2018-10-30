@@ -47,16 +47,103 @@ public class MainFrame {
 	// Bridge between GUI and model of source code.
 	private Controller controller;
 	
+	private boolean isErrorNetwork(ArrayList<Record> records)
+	{
+		if(records.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please provide a network configuration.", "Error", 1);
+			return true;
+		}
+		return false;
+	}
+	
+	private void doCalculate()
+	{
+		ArrayList<Record> records = getRecords();
+		if(isErrorNetwork(records))
+			return;
+		
+		ArrayList<Result> results = getResults(records);
+		if(results == null)
+			return;
+		
+		showResults(results);
+	}
+	
+	private ArrayList<Record> getRecords()
+	{
+		ArrayList<Record> records = new ArrayList<Record>();
+		
+		// When user is working in a cell, and selects calculate, their current edit
+		// is not saved, so this forces a commit on the table.
+		if (networkTable.isEditing())
+		    networkTable.getCellEditor().stopCellEditing();
+		
+		int duration = 0;
+		String activity;
+		String dependency;
+		
+		// We require that dependencies exist as activities, so first step is to load
+		// all activities into a list.
+		ArrayList<String> activities = new ArrayList<>();
+		activities.add("");
+		for(int idx = 0; idx < model.getRowCount() - 1; idx++) {
+			// We skip rows that don't have an activity.
+			if(model.getValueAt(idx, 0).toString().isEmpty())
+				continue;
+			
+			activity = model.getValueAt(idx, 0).toString();
+			activities.add(activity.trim());
+		}
+		
+		
+		// Iterate over all rows in the table:
+		for(int idx = 0; idx < activities.size(); idx++)
+		{
+			activity = activities.get(idx);
+			// We skip rows that don't have an activity.
+			if(activity.isEmpty())
+				continue;
+			
+			dependency = model.getValueAt(idx - 1, 1).toString();
+			
+			try {
+				duration = Integer.parseInt(model.getValueAt(idx - 1, 2).toString());
+			}
+			catch(NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx) , "Error", 1);
+				return null;
+			}
+			
+			//Check if dependency is an activity
+			//Throws error if dependency is not found in activity array
+			String[] dependencies = dependency.split(",");
+
+			for(int i = 0; i < dependencies.length; i++) {
+				dependencies[i] = dependencies[i].trim();
+				if(!activities.contains(dependencies[i])) {
+					JOptionPane.showMessageDialog(null, "Dependency \"" + dependencies[i] + "\" at row " + (idx) + " is not an activity.", "Error", 1);
+					return null;
+				}
+			}
+			
+			// With properly parsed data, we construct a Record object to be
+			// used in calculations.
+			records.add(new Record(activity, duration, dependencies));
+		}
+		return records;
+	}
 	
 	// Performs the calculation of a given collection of rows, along
 	// with error handling.
-	private void calculate() {
+	private ArrayList<Result> getResults(ArrayList<Record> records) {
 
 		
 		// We will build the list of records from the table data on the form,
 		// and then provide it to the controller to do the calculation.
 		// The result will be passed to the Paths frame on launch to be displayed.
 		controller = new Controller();
+		
+		/*
 		ArrayList<Record> records = new ArrayList<Record>();
 	
 		// When user is working in a cell, and selects calculate, their current edit
@@ -97,7 +184,7 @@ public class MainFrame {
 			}
 			catch(NumberFormatException nfe) {
 				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx) , "Error", 1);
-				return;
+				return null;
 			}
 			
 			//Check if dependency is an activity
@@ -108,7 +195,7 @@ public class MainFrame {
 				dependencies[i] = dependencies[i].trim();
 				if(!activities.contains(dependencies[i])) {
 					JOptionPane.showMessageDialog(null, "Dependency \"" + dependencies[i] + "\" at row " + (idx) + " is not an activity.", "Error", 1);
-					return;
+					return null;
 				}
 			}
 			
@@ -119,8 +206,9 @@ public class MainFrame {
 		
 		if(records.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Please provide a network configuration.", "Error", 1);
-			return;
+			return null;
 		}
+		*/
 		
 		ArrayList<Result> results = new ArrayList<>();
 		try {
@@ -128,13 +216,15 @@ public class MainFrame {
 			results = controller.getResults();
 			
 			// Our results table:
+			/*
 			Paths pathFrame = new Paths(results);
 			pathFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);	//center results frame
 			pathFrame.setVisible(true);
+			*/
 		}
 		catch(IllegalArgumentException ex) { 
 			JOptionPane.showMessageDialog(null, "Network graph is not connected.", "Error", 1);
-			return;
+			return null;
 		}
 		// TODO: Handle exceptions better. This is too general.
 		catch(Exception ex) {
@@ -142,6 +232,13 @@ public class MainFrame {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, ex.getMessage());
 		}
+		return results;
+	}
+	
+	private void showResults(ArrayList<Result> results) {
+		Paths pathFrame = new Paths(results);
+		pathFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);	//center results frame
+		pathFrame.setVisible(true);
 	}
 	
 	public static void main(String[] args) {
@@ -174,7 +271,8 @@ public class MainFrame {
 		JButton btnNewButton = new JButton("Calculate");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				calculate();
+				//calculate();
+				doCalculate();
 			}
 		});
 		btnNewButton.setBounds(642, 329, 97, 25);
@@ -206,7 +304,15 @@ public class MainFrame {
         JButton btnNewButton_1 = new JButton("Report");
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		Report reportFrame = new Report();
+        		ArrayList<Record> records = getRecords();
+        		if(isErrorNetwork(records))
+        			return;
+        		
+        		ArrayList<Result> results = getResults(records);
+        		if(results == null)
+        			return;
+        		
+        		Report reportFrame = new Report(records, results);
     			reportFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);	//center results frame
     			reportFrame.setVisible(true);
         	}
@@ -244,7 +350,8 @@ public class MainFrame {
 		JMenuItem mntmCalculate = new JMenuItem("Calculate");
 		mntmCalculate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				calculate();
+				//calculate();
+				doCalculate();
 			}
 		});
 		mnFile.add(mntmCalculate);

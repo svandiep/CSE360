@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -55,15 +56,25 @@ public class Report extends JDialog {
         }
     };
     
+    /*
+     * Function to get complete path to save report
+     */
 	protected void saveToFile() {
-	    JFileChooser chooser = new JFileChooser();
-	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-	    chooser.showSaveDialog(null);
-        File f = chooser.getSelectedFile();
-        String filename = f.getAbsolutePath();
-        JTextFieldPrintStream print = new JTextFieldPrintStream(out);
-        System.setOut(print);
-        System.out.println(filename);
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		jfc.setDialogTitle("Save file as");
+		jfc.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+		jfc.addChoosableFileFilter(filter);
+
+		int returnValue = jfc.showSaveDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			String filename = jfc.getSelectedFile().toString();
+			   if (!filename .endsWith(".txt"))// append .txt if filename does not have it
+			        filename += ".txt";
+			JTextFieldPrintStream print = new JTextFieldPrintStream(out);
+	        System.setOut(print);
+			System.out.println(filename);
+		}
 	  }
 	/**
 	 *  Close the Dialog 

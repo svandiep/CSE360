@@ -39,8 +39,8 @@ public class Report extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	public JTextField textField_1;
+	private JTextField reportName;
+	public JTextField filePath;
 	public JButton btnNewButton;
 	
 	private ArrayList<Record> records;
@@ -60,7 +60,7 @@ public class Report extends JDialog {
         }
         @Override
         public void println(String x) {
-        	textField_1.setText(x);
+        	filePath.setText(x);
         }
     };
     
@@ -136,20 +136,20 @@ public class Report extends JDialog {
 		lblNewLabel.setBounds(33, 38, 91, 16);
 		contentPanel.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(131, 35, 192, 22);
-		contentPanel.add(textField);
-		textField.setColumns(10);
+		reportName = new JTextField();
+		reportName.setBounds(131, 35, 192, 22);
+		contentPanel.add(reportName);
+		reportName.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Save To:");
 		lblNewLabel_1.setBounds(33, 112, 56, 16);
 		contentPanel.add(lblNewLabel_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setBounds(131, 109, 192, 22);
-		contentPanel.add(textField_1);
-		textField_1.setColumns(10);
+		filePath = new JTextField();
+		filePath.setEditable(false);
+		filePath.setBounds(131, 109, 192, 22);
+		contentPanel.add(filePath);
+		filePath.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Browse...");
 		btnNewButton.addActionListener(new ActionListener() {

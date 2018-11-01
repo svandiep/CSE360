@@ -97,6 +97,7 @@ public class Report extends JDialog {
 	{
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
 		LocalDateTime createdOn = LocalDateTime.now();
+		title = reportName.getText();
 		
 		Reporter reporter = new Reporter(records, results, filename, title, createdOn.format(dtf));
 		try

@@ -56,10 +56,11 @@ public class MainFrame {
 		return false;
 	}
 	
+	// Action performed on Calculate button or Menu option Calculate
 	private void doCalculate()
 	{
 		ArrayList<Record> records = getRecords();
-		if(isErrorNetwork(records))
+		if(records == null || isErrorNetwork(records))
 			return;
 		
 		ArrayList<Result> results = getResults(records);
@@ -67,6 +68,22 @@ public class MainFrame {
 			return;
 		
 		showResults(results);
+	}
+	
+	// Action performed on Report button or Menu option Create Report
+	private void doReport()
+	{
+		ArrayList<Record> records = getRecords();
+		if(records == null || isErrorNetwork(records))
+			return;
+		
+		ArrayList<Result> results = getResults(records);
+		if(results == null)
+			return;
+		
+		Report reportFrame = new Report(records, results);
+		reportFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);	//center results frame
+		reportFrame.setVisible(true);
 	}
 	
 	private ArrayList<Record> getRecords()
@@ -124,6 +141,12 @@ public class MainFrame {
 					JOptionPane.showMessageDialog(null, "Dependency \"" + dependencies[i] + "\" at row " + (idx) + " is not an activity.", "Error", 1);
 					return null;
 				}
+				
+				if(dependencies[i].equals(activity))
+				{
+					JOptionPane.showMessageDialog(null, "Cycle detected.", "Error", 1);
+					return null;
+				}
 			}
 			
 			// With properly parsed data, we construct a Record object to be
@@ -143,84 +166,10 @@ public class MainFrame {
 		// The result will be passed to the Paths frame on launch to be displayed.
 		controller = new Controller();
 		
-		/*
-		ArrayList<Record> records = new ArrayList<Record>();
-	
-		// When user is working in a cell, and selects calculate, their current edit
-		// is not saved, so this forces a commit on the table.
-		if (networkTable.isEditing())
-		    networkTable.getCellEditor().stopCellEditing();
-		
-		int duration = 0;
-		String activity;
-		String dependency;
-		
-		// We require that dependencies exist as activities, so first step is to load
-		// all activities into a list.
-		ArrayList<String> activities = new ArrayList<>();
-		activities.add("");
-		for(int idx = 0; idx < model.getRowCount() - 1; idx++) {
-			// We skip rows that don't have an activity.
-			if(model.getValueAt(idx, 0).toString().isEmpty())
-				continue;
-			
-			activity = model.getValueAt(idx, 0).toString();
-			activities.add(activity.trim());
-		}
-		
-		
-		// Iterate over all rows in the table:
-		for(int idx = 0; idx < activities.size(); idx++)
-		{
-			activity = activities.get(idx);
-			// We skip rows that don't have an activity.
-			if(activity.isEmpty())
-				continue;
-			
-			dependency = model.getValueAt(idx - 1, 1).toString();
-			
-			try {
-				duration = Integer.parseInt(model.getValueAt(idx - 1, 2).toString());
-			}
-			catch(NumberFormatException nfe) {
-				JOptionPane.showMessageDialog(null, "Invalid duration provided at row " + (idx) , "Error", 1);
-				return null;
-			}
-			
-			//Check if dependency is an activity
-			//Throws error if dependency is not found in activity array
-			String[] dependencies = dependency.split(",");
-
-			for(int i = 0; i < dependencies.length; i++) {
-				dependencies[i] = dependencies[i].trim();
-				if(!activities.contains(dependencies[i])) {
-					JOptionPane.showMessageDialog(null, "Dependency \"" + dependencies[i] + "\" at row " + (idx) + " is not an activity.", "Error", 1);
-					return null;
-				}
-			}
-			
-			// With properly parsed data, we construct a Record object to be
-			// used in calculations.
-			records.add(new Record(activity, duration, dependencies));
-		}
-		
-		if(records.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Please provide a network configuration.", "Error", 1);
-			return null;
-		}
-		*/
-		
 		ArrayList<Result> results = new ArrayList<>();
 		try {
 			controller.populateGraph(records);	//graph is now built
 			results = controller.getResults();
-			
-			// Our results table:
-			/*
-			Paths pathFrame = new Paths(results);
-			pathFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);	//center results frame
-			pathFrame.setVisible(true);
-			*/
 		}
 		catch(IllegalArgumentException ex) { 
 			JOptionPane.showMessageDialog(null, "Network graph is not connected.", "Error", 1);
@@ -263,7 +212,6 @@ public class MainFrame {
 		frmNetworkPathAnalyzer = new JFrame();
 		frmNetworkPathAnalyzer.setResizable(false);
 		frmNetworkPathAnalyzer.setTitle("Network Path Analyzer");
-//		frmNetworkPathAnalyzer.setBounds(100, 100, 800, 459);
 		frmNetworkPathAnalyzer.setSize(800, 459);
 		frmNetworkPathAnalyzer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmNetworkPathAnalyzer.getContentPane().setLayout(null);
@@ -304,17 +252,7 @@ public class MainFrame {
         JButton btnNewButton_1 = new JButton("Report");
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		ArrayList<Record> records = getRecords();
-        		if(isErrorNetwork(records))
-        			return;
-        		
-        		ArrayList<Result> results = getResults(records);
-        		if(results == null)
-        			return;
-        		
-        		Report reportFrame = new Report(records, results);
-    			reportFrame.setLocationRelativeTo(frmNetworkPathAnalyzer);	//center results frame
-    			reportFrame.setVisible(true);
+        		doReport();
         	}
         });
         btnNewButton_1.setBounds(38, 329, 97, 25);
@@ -350,7 +288,6 @@ public class MainFrame {
 		JMenuItem mntmCalculate = new JMenuItem("Calculate");
 		mntmCalculate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//calculate();
 				doCalculate();
 			}
 		});
@@ -366,6 +303,7 @@ public class MainFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Create Report");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				doReport();
 			}
 		});
 		mnFile.add(mntmNewMenuItem);

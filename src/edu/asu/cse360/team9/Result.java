@@ -61,9 +61,7 @@ public class Result implements Comparable<Result> {
 	 */
 	@Override
 	public boolean equals(Object o)
-	{
-		System.out.println("Comparing...");
-		
+	{		
 		if (o == null)
 			return false;
 		

@@ -35,7 +35,7 @@ public class Reporter
 			divider += "-";
 		try {
 			FileWriter w = new FileWriter(path, false);
-			w.write(title + newline + newline);
+			w.write("Title: " + title + newline + newline);
 
 			String pad = getPadding("Activities", "Durations");
 			w.write("Activities" + pad + "Durations" + newline);

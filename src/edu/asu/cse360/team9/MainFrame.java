@@ -312,11 +312,25 @@ public class MainFrame {
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
+		JMenuItem mntmHelpText = new JMenuItem("Help Contents");
+		mntmHelpText.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Desktop.getDesktop().open(new java.io.File("Resources/HelpText-NoCover.pdf"));
+				}
+				catch (Exception e){
+					JOptionPane.showMessageDialog(null, "Resource not available", "Error", 1);
+					return;
+				}
+			}
+		});
+		mnHelp.add(mntmHelpText);
+		
 		JMenuItem mntmUserGuide = new JMenuItem("User Guide");
 		mntmUserGuide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Desktop.getDesktop().open(new java.io.File("Resources/TeamProjectPhase2UserGuidev1.0.pdf"));
+					Desktop.getDesktop().open(new java.io.File("Resources/TeamProjectPhase2UserGuidev2.0.pdf"));
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null, "Resource not available", "Error", 1);
